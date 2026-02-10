@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  ImageIcon,
   Smartphone,
-  Briefcase,
   Target,
   Settings,
   ShieldCheck,
@@ -193,28 +191,44 @@ export default function HomePage() {
                   </div>
 
                   <div
-                    className={`mx-auto bg-white border-2 border-black p-2 relative transition-transform duration-500 ${hoveredWorkId === item.id ? "scale-95 opacity-20 blur-sm" : "scale-100"} ${!item.isEnterprise && item.isMobile ? "w-32 h-56 rounded-[20px]" : "w-full h-40 rounded-sm"}`}
+                    className={`mx-auto bg-white border-2 border-black p-2 relative transition-transform duration-500 overflow-hidden ${hoveredWorkId === item.id ? "scale-95 opacity-20 blur-sm" : "scale-100"} ${!item.isEnterprise && item.isMobile ? "w-32 h-56 rounded-[20px]" : "w-full h-40 rounded-sm"}`}
                   >
                     {item.isEnterprise ? (
-                      <div className="border border-black h-full bg-gray-50 flex flex-col relative overflow-hidden">
-                        <div className="bg-white h-6 border-b border-black flex items-center px-2 gap-1">
+                      <div className="border border-black h-full bg-gray-50 flex flex-col relative overflow-hidden rounded-sm">
+                        <div className="bg-white h-6 border-b border-black flex items-center px-2 gap-1 shrink-0">
                           <div className="w-2 h-1 bg-black/20"></div>
                           <div className="w-10 h-1 bg-black/20"></div>
                         </div>
-                        <div className="flex-1 flex items-center justify-center opacity-10">
-                          <Briefcase size={48} />
+                        <div className="flex-1 relative min-h-0">
+                          {item.coverImage ? (
+                            <Image
+                              src={item.coverImage}
+                              alt={item.title}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                          ) : null}
                         </div>
                       </div>
                     ) : (
                       <div
-                        className={`border border-black h-full flex flex-col ${item.isMobile ? "rounded-[15px]" : ""}`}
+                        className={`border border-black h-full flex flex-col overflow-hidden ${item.isMobile ? "rounded-[15px]" : "rounded-sm"}`}
                       >
-                        <div className="bg-gray-100 h-4 border-b border-black flex items-center px-1 gap-1">
+                        <div className="bg-gray-100 h-4 border-b border-black flex items-center px-1 gap-1 shrink-0">
                           <div className="w-1 h-1 rounded-full bg-black/30"></div>
                           <div className="w-1 h-1 rounded-full bg-black/30"></div>
                         </div>
-                        <div className="flex-1 p-2 flex flex-col justify-center items-center">
-                          <ImageIcon size={24} className="opacity-10" />
+                        <div className="flex-1 min-h-0 relative">
+                          {item.coverImage ? (
+                            <Image
+                              src={item.coverImage}
+                              alt={item.title}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 128px, 50vw"
+                            />
+                          ) : null}
                         </div>
                       </div>
                     )}

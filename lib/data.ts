@@ -32,6 +32,7 @@ export const workItems: WorkItem[] = [
       },
     ],
     tags: ["Enterprise", "B2B"],
+    coverImage: "/placeholder.jpg",
   },
   {
     id: "ent2",
@@ -59,6 +60,7 @@ export const workItems: WorkItem[] = [
       },
     ],
     tags: ["Finance", "SaaS"],
+    coverImage: "/placeholder.jpg",
   },
   {
     id: "p1",

@@ -19,6 +19,7 @@ export interface WorkItem {
   isMobile?: boolean;
   period?: string;
   logoInitials?: string;
+  coverImage?: string;
   overview?: WorkOverview;
   projects?: Project[];
   context?: string;
