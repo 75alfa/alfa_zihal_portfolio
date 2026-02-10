@@ -32,7 +32,7 @@ export const workItems: WorkItem[] = [
       },
     ],
     tags: ["Enterprise", "B2B"],
-    coverImage: "/placeholder.jpg",
+    coverImage: "placeholder.png",
   },
   {
     id: "ent2",
@@ -60,7 +60,7 @@ export const workItems: WorkItem[] = [
       },
     ],
     tags: ["Finance", "SaaS"],
-    coverImage: "/placeholder.jpg",
+    coverImage: "placeholder.png",
   },
   {
     id: "p1",
@@ -78,6 +78,7 @@ export const workItems: WorkItem[] = [
     problem: "Opaque transaction finality.",
     solution: "Real-Time Calculator + Status Tracker.",
     tags: ["Mobile", "Individual"],
+    coverImage: "placeholder.png",
   },
   {
     id: "p2",
@@ -95,6 +96,7 @@ export const workItems: WorkItem[] = [
     problem: "Low engagement with carbon metrics.",
     solution: "Integrated 'Tree points' in primary CTA.",
     tags: ["Web", "Individual"],
+    coverImage: "placeholder.png",
   },
 ];
 

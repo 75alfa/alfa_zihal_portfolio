@@ -219,7 +219,7 @@ export default function HomePage() {
                           <div className="w-1 h-1 rounded-full bg-black/30"></div>
                           <div className="w-1 h-1 rounded-full bg-black/30"></div>
                         </div>
-                        <div className="flex-1 min-h-0 relative">
+                        <div className="flex-1 min-h-0 relative bg-red-500">
                           {item.coverImage ? (
                             <Image
                               src={item.coverImage}
