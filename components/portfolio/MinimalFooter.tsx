@@ -2,7 +2,7 @@ import { Linkedin, Twitter, Dribbble } from "lucide-react";
 
 export function MinimalFooter() {
   return (
-    <div className="mt-24 mb-8 border-t-2 border-black border-dashed pt-8 flex flex-col items-center gap-6 opacity-60">
+    <div className="mt-24 border-t-2 border-black border-dashed pt-8 pb-12 flex flex-col items-center gap-6 opacity-60">
       <div className="text-xl font-black italic tracking-widest uppercase">
         Everything is possible by prayer and UX
       </div>
