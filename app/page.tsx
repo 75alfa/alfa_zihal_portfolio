@@ -128,7 +128,7 @@ const BALSAMIQ_CSS = `
 
     .sketch-card {
       border: 2px solid #000;
-      border-radius: 8px 4px 10px 2px / 4px 10px 3px 8px;
+      // border-radius: 8px 4px 10px 2px / 4px 10px 3px 8px;
     }
 
     .enterprise-stack {
