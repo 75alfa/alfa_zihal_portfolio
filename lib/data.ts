@@ -1,4 +1,4 @@
-import type { WorkItem, BlogPost } from "./types";
+import type { WorkItem } from "./types";
 
 export const workItems: WorkItem[] = [
   {
@@ -97,33 +97,6 @@ export const workItems: WorkItem[] = [
     solution: "Integrated 'Tree points' in primary CTA.",
     tags: ["Web", "Individual"],
     coverImage: "placeholder.png",
-  },
-];
-
-export const blogPosts: BlogPost[] = [
-  {
-    id: "b1",
-    title: "The Logic of Low-Fi sketching",
-    date: "Jan 12, 2026",
-    excerpt:
-      "Why mapping out logical flows in wireframe mode saves weeks of rework during the high-fidelity phase.",
-    tags: ["Strategy", "Philosophy"],
-  },
-  {
-    id: "b2",
-    title: "Designing for High-Density Data",
-    date: "Dec 05, 2025",
-    excerpt:
-      "Lessons learned from building complex cloud dashboards for technical server administrators.",
-    tags: ["Enterprise", "IA"],
-  },
-  {
-    id: "b3",
-    title: "Mobile Accessibility Hacks",
-    date: "Nov 20, 2025",
-    excerpt:
-      "Quick wins for making complex fintech apps more accessible for diverse user capabilities.",
-    tags: ["Accessibility", "Mobile"],
   },
 ];
 
