@@ -2,8 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SiteContent } from "@/src/domain/entities/Content";
 
-export function PortfolioNav() {
+interface PortfolioNavProps {
+  siteContent?: SiteContent | null;
+}
+
+export function PortfolioNav({ siteContent }: PortfolioNavProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -21,25 +26,25 @@ export function PortfolioNav() {
           href="/"
           className={`sketch-button text-xs font-bold ${isHome ? "bg-blue-200" : "bg-white"}`}
         >
-          CANVAS VIEW
+          {siteContent?.navigation.canvasView || "CANVAS VIEW"}
         </Link>
         <Link
           href="/resume"
           className={`sketch-button text-xs font-bold ${pathname === "/resume" ? "bg-blue-200" : "bg-white"}`}
         >
-          WORK HISTORY
+          {siteContent?.navigation.workHistory || "WORK HISTORY"}
         </Link>
         <Link
           href="/contact"
           className={`sketch-button text-xs font-bold ${pathname === "/contact" ? "bg-blue-200" : "bg-white"}`}
         >
-          CONTACT
+          {siteContent?.navigation.contact || "CONTACT"}
         </Link>
         <Link
           href="/blog"
           className={`sketch-button text-xs font-bold ${pathname === "/blog" ? "bg-blue-200" : "bg-white"}`}
         >
-          BLOG
+          {siteContent?.navigation.blog || "BLOG"}
         </Link>
       </div>
     </nav>

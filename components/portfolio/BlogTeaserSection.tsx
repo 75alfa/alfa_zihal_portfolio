@@ -1,21 +1,23 @@
 import { Clock, FileText, Plus } from "lucide-react";
 import Link from "next/link";
-import { getPosts } from "@/lib/sanity/fetch";
+import { getBlogPostsUseCase } from "@/src/application/di/container";
+import { BlogPost } from "@/src/domain/entities/BlogPost";
+import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
 export async function BlogTeaserSection() {
-  const posts = await getPosts(3);
+  const posts = await getBlogPostsUseCase.execute(3);
 
   if (posts.length === 0) {
     return (
       <section className="relative mt-40">
         <div className="absolute -top-12 left-0 bg-yellow-100 border-2 border-black p-2 px-6 rotate-[1.5deg] font-bold shadow-sm z-10">
-          {"MY WRITTINGS"}
+          {uiLabels.sections.myWritings}
         </div>
         <div className="mt-16 sketch-card bg-white p-12 text-center">
           <p className="text-lg italic opacity-75">
-            No posts yet. Add content in{" "}
+            {uiLabels.messages.noPostsMessage}{" "}
             <Link href="/studio" className="underline font-bold">
-              Sanity Studio
+              {uiLabels.sections.sanityStudio}
             </Link>
             .
           </p>
@@ -27,7 +29,7 @@ export async function BlogTeaserSection() {
   return (
     <section className="relative mt-40">
       <div className="absolute -top-12 left-0 bg-yellow-100 border-2 border-black p-2 px-6 rotate-[1.5deg] font-bold shadow-sm z-10">
-        {"MY WRITTINGS"}
+        {uiLabels.sections.myWritings}
       </div>
 
       <div className="grid md:grid-cols-3 gap-8 mt-16">
@@ -67,7 +69,7 @@ export async function BlogTeaserSection() {
               </div>
               <div className="flex items-center justify-between pt-4 border-t border-black border-dashed">
                 <span className="text-[10px] font-black uppercase flex items-center gap-1">
-                  Read Script <FileText size={12} />
+                  {uiLabels.buttons.readScript} <FileText size={12} />
                 </span>
                 <Plus size={14} className="opacity-20" />
               </div>

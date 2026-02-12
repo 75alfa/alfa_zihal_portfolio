@@ -1,9 +1,10 @@
 import { ArrowLeft, Clock, FileText, Plus } from "lucide-react";
 import Link from "next/link";
-import { getPosts } from "@/lib/sanity/fetch";
+import { getBlogPostsUseCase } from "@/src/application/di/container";
+import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const posts = await getBlogPostsUseCase.execute();
 
   return (
     <div className="max-w-5xl mx-auto px-6 pt-8 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -12,25 +13,25 @@ export default async function BlogPage() {
           href="/"
           className="sketch-button flex items-center gap-2 text-sm"
         >
-          <ArrowLeft size={16} /> {"Back"}
+          <ArrowLeft size={16} /> {uiLabels.navigation.back}
         </Link>
         <span className="opacity-30">/</span>
         <span className="text-sm font-bold opacity-50 uppercase tracking-widest">
-          My Writings
+          {uiLabels.sections.myWritings}
         </span>
       </div>
 
       <section className="relative">
         <div className="absolute -top-12 left-0 bg-yellow-100 border-2 border-black p-2 px-6 rotate-[1.5deg] font-bold shadow-sm z-10">
-          {"MY WRITTINGS"}
+          {uiLabels.sections.myWritings}
         </div>
 
         {posts.length === 0 ? (
           <div className="mt-16 sketch-card bg-white p-12 text-center">
             <p className="text-lg italic opacity-75">
-              No posts yet. Add content in{" "}
+              {uiLabels.messages.noPostsMessage}{" "}
               <Link href="/studio" className="underline font-bold">
-                Sanity Studio
+                {uiLabels.sections.sanityStudio}
               </Link>
               .
             </p>
@@ -73,7 +74,7 @@ export default async function BlogPage() {
                   </div>
                   <div className="flex items-center justify-between pt-4 border-t border-black border-dashed">
                     <span className="text-[10px] font-black uppercase flex items-center gap-1">
-                      Read Script <FileText size={12} />
+                      {uiLabels.buttons.readScript} <FileText size={12} />
                     </span>
                     <Plus size={14} className="opacity-20" />
                   </div>

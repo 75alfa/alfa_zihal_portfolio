@@ -12,13 +12,20 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { MethodologySection } from "@/components/portfolio/MethodologySection";
-import { workItems } from "@/lib/data";
+import { WorkItem } from "@/src/domain/entities/WorkItem";
+import { SiteContent } from "@/src/domain/entities/Content";
+import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
-export function HomePageClient() {
+interface HomePageClientProps {
+  siteContent?: SiteContent | null;
+  workItems: WorkItem[];
+}
+
+export function HomePageClient({ siteContent, workItems }: HomePageClientProps) {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
   const [hoveredWorkId, setHoveredWorkId] = useState<string | null>(null);
   const [typedText, setTypedText] = useState("");
-  const headline = "Alfa Zihal: UX & Product Designer";
+  const headline = siteContent?.hero.headline || "Alfa Zihal: UX & Product Designer";
 
   useEffect(() => {
     let currentIndex = 0;
@@ -31,7 +38,7 @@ export function HomePageClient() {
       }
     }, 80);
     return () => clearInterval(typingInterval);
-  }, []);
+  }, [headline]);
 
   return (
     <>
@@ -40,7 +47,7 @@ export function HomePageClient() {
         <div className="flex-1">
           <div className="inline-block sketch-border bg-yellow-100 px-6 py-4 mb-6 rotate-[-1deg] min-h-[4rem] flex items-center relative group">
             <div className="absolute -top-3 -left-3 bg-white border-2 border-black px-2 text-[10px] font-black uppercase rotate-[-5deg] shadow-sm">
-              {"+5 years experience"}
+              {siteContent?.hero.experienceBadge || "+5 years experience"}
             </div>
             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tight">
               {typedText}
@@ -48,17 +55,17 @@ export function HomePageClient() {
             </h1>
           </div>
           <p className="text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl">
-            {"I focus on the logic before the pixels. I build the foundation, define flows, and create structured systems that turn complex problems into intuitive experiences."}
+            {siteContent?.hero.subheadline || "I focus on the logic before the pixels. I build the foundation, define flows, and create structured systems that turn complex problems into intuitive experiences."}
           </p>
           <div className="flex gap-4">
             <Link
               href="/contact"
               className="sketch-button py-3 px-8 text-lg bg-blue-50"
             >
-              Hire me !
+              {siteContent?.hero.ctaPrimary || "Hire me !"}
             </Link>
             <Link href="/resume" className="sketch-button py-3 px-8 text-lg">
-              Work History
+              {siteContent?.hero.ctaSecondary || "Work History"}
             </Link>
           </div>
         </div>
@@ -95,12 +102,12 @@ export function HomePageClient() {
 
       <div className="hand-drawn-line mb-20 opacity-50"></div>
 
-      <MethodologySection colorClass="bg-blue-100" />
+      <MethodologySection colorClass="bg-blue-100" siteContent={siteContent} />
 
       {/* Work Section */}
       <section className="relative mb-32">
         <div className="absolute -top-12 left-0 bg-blue-100 border-2 border-black p-2 px-6 rotate-[-2deg] font-bold shadow-sm z-10">
-          {"SOME OF MY WORK"}
+          {siteContent?.workSectionTitle || "SOME OF MY WORK"}
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">

@@ -1,11 +1,19 @@
 import { Search, PenTool, GitBranch, Hand, Zap, ShieldCheck, Minus } from "lucide-react";
 import Link from "next/link";
+import { SiteContent } from "@/src/domain/entities/Content";
+import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
-export function FinalCTASection() {
+interface FinalCTASectionProps {
+  siteContent?: SiteContent | null;
+}
+
+export function FinalCTASection({ siteContent }: FinalCTASectionProps) {
+  const cta = siteContent?.cta;
+  
   return (
     <section className="relative mt-52 mb-20">
       <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-blue-100 border-2 border-black p-2 px-8 rotate-[-1deg] font-black uppercase shadow-sm z-10">
-        {"Final Logic Check"}
+        {cta?.title || uiLabels.sections.finalLogicCheck}
       </div>
 
       <div className="sketch-card bg-white p-12 text-center relative overflow-hidden">
@@ -45,16 +53,16 @@ export function FinalCTASection() {
 
         <div className="max-w-xl mx-auto py-10">
           <h2 className="text-4xl md:text-5xl font-black uppercase mb-6 tracking-tighter italic">
-            Ready to start the next flow?
+            {cta?.title || "Ready to start the next flow?"}
           </h2>
           <p className="text-lg opacity-60 mb-10 leading-relaxed font-bold">
-            {"I'm currently looking for new puzzles and complex system challenges to solve. Let's wireframe your vision together."}
+            {cta?.description || "I'm currently looking for new puzzles and complex system challenges to solve. Let's wireframe your vision together."}
           </p>
           <Link
             href="/contact"
             className="sketch-button py-5 px-12 bg-indigo-600 text-black text-xl font-black uppercase flex items-center gap-4 mx-auto group w-fit"
           >
-            Start a Project <Zap size={24} className="group-hover:animate-pulse" />
+            {cta?.buttonText || "Start a Project"} <Zap size={24} className="group-hover:animate-pulse" />
           </Link>
           <div className="mt-8 flex items-center justify-center gap-3 opacity-30 text-[10px] font-black uppercase">
             <ShieldCheck size={14} /> NDA Friendly <Minus size={12} /> Logic-Driven

@@ -3,8 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
-import { getPostBySlug } from "@/lib/sanity/fetch";
-import { urlForImage } from "@/lib/sanity/image";
+import { getBlogPostBySlugUseCase } from "@/src/application/di/container";
+import { urlForImage } from "@/src/infrastructure/sanity/image";
+import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -12,7 +13,7 @@ interface PostPageProps {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const post = await getBlogPostBySlugUseCase.execute(slug);
 
   if (!post) {
     notFound();
@@ -33,7 +34,7 @@ export default async function PostPage({ params }: PostPageProps) {
           href="/blog"
           className="sketch-button flex items-center gap-2 text-sm"
         >
-          <ArrowLeft size={16} /> {"Back"}
+          <ArrowLeft size={16} /> {uiLabels.navigation.back}
         </Link>
         <span className="opacity-30">/</span>
         <span className="text-sm font-bold opacity-50 uppercase tracking-widest">

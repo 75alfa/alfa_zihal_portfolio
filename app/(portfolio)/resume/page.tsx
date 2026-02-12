@@ -6,9 +6,15 @@ import {
   GraduationCap,
 } from "lucide-react";
 import Link from "next/link";
-import { workItems } from "@/lib/data";
+import { getWorkItemsUseCase, getProfileContentUseCase } from "@/src/application/di/container";
+import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
-export default function ResumePage() {
+export default async function ResumePage() {
+  const [workItems, profile] = await Promise.all([
+    getWorkItemsUseCase.execute(),
+    getProfileContentUseCase.execute(),
+  ]);
+  
   const enterpriseItems = workItems.filter((i) => i.isEnterprise);
 
   return (
@@ -18,31 +24,27 @@ export default function ResumePage() {
           href="/"
           className="sketch-button flex items-center gap-2 text-sm"
         >
-          <ArrowLeft size={16} /> {"Back"}
+          <ArrowLeft size={16} /> {uiLabels.navigation.back}
         </Link>
         <span className="opacity-30">/</span>
         <span className="text-sm font-bold opacity-50 uppercase tracking-widest">
-          Work History
+          {uiLabels.sections.workHistory}
         </span>
       </div>
 
       <div className="sketch-card bg-white p-10 flex flex-col gap-12">
         <section>
           <div className="inline-block bg-yellow-100 border-2 border-black px-4 py-1 rotate-[-1deg] mb-4 font-black uppercase">
-            {"Profile"}
+            {uiLabels.sections.profile}
           </div>
           <p className="text-lg leading-relaxed">
-            Multidisciplinary UX & Product Designer with 4+ years of experience in
-            leading digital transformation for enterprise-scale platforms. Expert
-            in user Flows, information architecture, rapid prototyping, and
-            complex user flow logic. I believe in solving the functional puzzle
-            before applying the visual polish.
+            {profile?.profileText || "Loading profile..."}
           </p>
         </section>
 
         <section className="flex flex-col gap-8">
           <div className="inline-block bg-blue-100 border-2 border-black px-4 py-1 rotate-[1deg] mb-4 font-black uppercase">
-            {"Work History"}
+            {uiLabels.sections.workHistory}
           </div>
 
           {enterpriseItems.map((item) => (
@@ -78,54 +80,50 @@ export default function ResumePage() {
         <div className="grid md:grid-cols-2 gap-12 pt-8 border-t-2 border-black border-dashed">
           <section>
             <div className="inline-block bg-green-100 border-2 border-black px-4 py-1 rotate-[-2deg] mb-6 font-black uppercase">
-              {"Skills Stack"}
+              {uiLabels.sections.skillsStack}
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <h5 className="font-black text-xs uppercase flex items-center gap-2">
-                  <Layers size={14} /> Design
-                </h5>
-                <ul className="text-xs flex flex-col gap-1 opacity-70">
-                  <li>- Wireframing</li>
-                  <li>- User Flows</li>
-                  <li>- Info Architecture</li>
-                </ul>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h5 className="font-black text-xs uppercase flex items-center gap-2">
-                  <Cpu size={14} /> Technical
-                </h5>
-                <ul className="text-xs flex flex-col gap-1 opacity-70">
-                  <li>- React / JS</li>
-                  <li>- Tailwind CSS</li>
-                </ul>
-              </div>
+              {profile?.skills.map((skill, index) => (
+                <div key={index} className="flex flex-col gap-2">
+                  <h5 className="font-black text-xs uppercase flex items-center gap-2">
+                    {skill.category === "Design" ? <Layers size={14} /> : <Cpu size={14} />}{" "}
+                    {skill.category}
+                  </h5>
+                  <ul className="text-xs flex flex-col gap-1 opacity-70">
+                    {skill.items.map((item, itemIndex) => (
+                      <li key={itemIndex}>- {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </section>
 
           <section>
-            <div className="inline-block bg-purple-100 border-2 border-black px-4 py-1 rotate-[1deg] mb-6 font-black uppercase">
-              {"Education"}
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex gap-3">
+          <div className="inline-block bg-purple-100 border-2 border-black px-4 py-1 rotate-[1deg] mb-6 font-black uppercase">
+            {uiLabels.sections.education}
+          </div>
+          <div className="flex flex-col gap-4">
+            {profile?.education.map((edu, index) => (
+              <div key={index} className="flex gap-3">
                 <GraduationCap size={24} className="shrink-0" />
                 <div>
                   <h5 className="font-black uppercase text-sm">
-                    M.Sc. Interaction Design
+                    {edu.degree}
                   </h5>
                   <p className="text-xs opacity-60 italic">
-                    Tech University of Design | 2018
+                    {edu.institution} | {edu.year}
                   </p>
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
           </section>
         </div>
 
         <div className="pt-12 text-center">
           <p className="text-[10px] uppercase font-bold opacity-30 italic mt-8">
-            Generated by Alfa_Zihal_Mockup_Engine_v4.2
+            {uiLabels.generatedBy}
           </p>
         </div>
       </div>
