@@ -6,10 +6,12 @@ import {
   AlertCircle,
   ImageIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getWorkItemByIdUseCase } from "@/src/application/di/container";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
+import { urlForImage } from "@/src/infrastructure/sanity/image";
 
 interface WorkDetailPageProps {
   readonly params: Promise<{ id: string }>;
@@ -136,13 +138,28 @@ export default async function WorkDetailPage({
                 </div>
 
                 <div className="flex flex-col gap-6">
-                  <div className="aspect-[4/3] bg-white border-4 border-black border-dashed flex items-center justify-center relative shadow-inner">
-                    <ImageIcon size={64} className="opacity-20" />
-                    <span className="font-bold text-xs uppercase opacity-50">
-                      {uiLabels.sections.prototypePreview}
-                    </span>
+                  <div className="aspect-[4/3] bg-white border-4 border-black border-dashed flex items-center justify-center relative overflow-hidden shadow-inner">
+                    {item.coverImage ? (
+                      <Image
+                        src={urlForImage(item.coverImage)
+                          .width(800)
+                          .height(600)
+                          .url()}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <>
+                        <ImageIcon size={64} className="opacity-20" />
+                        <span className="font-bold text-xs uppercase opacity-50">
+                          {uiLabels.sections.prototypePreview}
+                        </span>
+                      </>
+                    )}
                   </div>
-                  <button className="sketch-button w-full py-4 text-xl bg-blue-600 text-white font-black hover:bg-blue-700">
+                  <button className="sketch-button w-full py-4 text-xl !bg-blue-700 text-white font-black hover:!bg-blue-800">
                     {uiLabels.buttons.launchMockup}
                   </button>
                 </div>

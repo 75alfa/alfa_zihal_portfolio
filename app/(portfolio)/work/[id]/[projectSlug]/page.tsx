@@ -19,7 +19,6 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  // Find project by slug, or by generated slug from name (backward compatibility)
   const generateSlug = (name: string): string => {
     let slug = name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
     if (slug.startsWith("-")) slug = slug.slice(1);
@@ -35,7 +34,6 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  // Convert project to plain object for client component serialization
   const projectPlain = {
     name: project.name,
     slug: project.slug,
