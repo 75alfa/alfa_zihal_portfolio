@@ -1,9 +1,16 @@
 export interface HeroContent {
+  name: string;
   headline: string;
   subheadline: string;
   ctaPrimary: string;
   ctaSecondary: string;
   experienceBadge: string;
+  heroImageOne?: {
+    asset: { _ref: string };
+  };
+  heroImageTwo?: {
+    asset: { _ref: string };
+  };
 }
 
 export interface MethodologyStep {

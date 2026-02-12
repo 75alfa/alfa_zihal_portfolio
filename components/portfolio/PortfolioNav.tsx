@@ -16,7 +16,7 @@ export function PortfolioNav({ siteContent }: Readonly<PortfolioNavProps>) {
       <Link href="/">
         <div className="flex items-center gap-4">
           <div className="sketch-border bg-white p-1 px-3 font-bold text-xl uppercase italic">
-            Alfa Zihal
+            {siteContent?.hero?.name}
           </div>
         </div>
       </Link>

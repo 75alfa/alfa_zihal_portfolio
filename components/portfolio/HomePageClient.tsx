@@ -95,31 +95,40 @@ export function HomePageClient({
 
         <div
           className="relative w-48 h-48 md:w-64 md:h-64 cursor-help"
+          role="img"
+          aria-label="Profile images with hover effect"
           onMouseEnter={() => setIsProfileHovered(true)}
           onMouseLeave={() => setIsProfileHovered(false)}
+          onFocus={() => setIsProfileHovered(true)}
+          onBlur={() => setIsProfileHovered(false)}
+          tabIndex={0}
         >
-          <div
-            className={`absolute inset-0 border-2 border-black border-dashed flex items-center justify-center bg-blue-50 duration-500 transition-[transform,opacity] ${isProfileHovered ? "rotate-6 translate-x-4 translate-y-4 opacity-100" : "rotate-0 opacity-0 scale-95"}`}
-          >
-            <Image
-              src="/Personality.png"
-              alt="personality image"
-              className="w-full h-full"
-              width={100}
-              height={100}
-            />
-          </div>
-          <div
-            className={`absolute inset-0 border-2 border-black bg-gray-50 duration-500 transition-[transform,opacity,filter] ${isProfileHovered ? "-rotate-12 -translate-x-8 -translate-y-4 opacity-20 grayscale" : "rotate-2 opacity-100"}`}
-          >
-            <Image
-              src="/Profile.png"
-              alt="profile image"
-              className="object-cover w-full h-full"
-              width={100}
-              height={100}
-            />
-          </div>
+          {siteContent?.hero.heroImageOne && (
+            <div
+              className={`absolute inset-0 border-2 border-black border-dashed flex items-center justify-center bg-blue-50 duration-500 transition-[transform,opacity] ${isProfileHovered ? "rotate-6 translate-x-4 translate-y-4 opacity-100" : "rotate-0 opacity-0 scale-95"}`}
+            >
+              <Image
+                src={urlForImage(siteContent.hero.heroImageOne).width(400).height(400).url()}
+                alt="personality image"
+                className="w-full h-full object-cover"
+                width={400}
+                height={400}
+              />
+            </div>
+          )}
+          {siteContent?.hero.heroImageTwo && (
+            <div
+              className={`absolute inset-0 border-2 border-black bg-gray-50 duration-500 transition-[transform,opacity,filter] ${isProfileHovered ? "-rotate-12 -translate-x-8 -translate-y-4 opacity-20 grayscale" : "rotate-2 opacity-100"}`}
+            >
+              <Image
+                src={urlForImage(siteContent.hero.heroImageTwo).width(400).height(400).url()}
+                alt="profile image"
+                className="object-cover w-full h-full"
+                width={400}
+                height={400}
+              />
+            </div>
+          )}
         </div>
       </section>
 

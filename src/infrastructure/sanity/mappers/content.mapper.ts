@@ -10,11 +10,18 @@ import {
 
 export interface SanitySiteContent {
   hero: {
+    name: string;
     headline: string;
     subheadline: string;
     ctaPrimary: string;
     ctaSecondary: string;
     experienceBadge: string;
+    heroImageOne?: {
+      asset: { _ref: string };
+    };
+    heroImageTwo?: {
+      asset: { _ref: string };
+    };
   };
   methodology?: {
     title?: string;
@@ -53,11 +60,14 @@ export function mapSanityContentToDomain(
 ): SiteContent {
   return new SiteContent(
     {
+      name: sanityContent.hero?.name || "Alfa Zihal",
       headline: sanityContent.hero.headline,
       subheadline: sanityContent.hero.subheadline,
       ctaPrimary: sanityContent.hero?.ctaPrimary || "",
       ctaSecondary: sanityContent.hero?.ctaSecondary || "",
       experienceBadge: sanityContent.hero?.experienceBadge || "",
+      heroImageOne: sanityContent.hero?.heroImageOne,
+      heroImageTwo: sanityContent.hero?.heroImageTwo,
     } as HeroContent,
     {
       title: sanityContent.methodology?.title || "",
