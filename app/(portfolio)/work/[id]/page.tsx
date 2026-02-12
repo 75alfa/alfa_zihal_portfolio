@@ -19,7 +19,6 @@ export default async function WorkDetailPage({
   params,
 }: Readonly<WorkDetailPageProps>) {
   const { id } = await params;
-  // Decode the ID from URL (handles Sanity _id format)
   const decodedId = decodeURIComponent(id);
   const item = await getWorkItemByIdUseCase.execute(decodedId);
 
@@ -62,6 +61,14 @@ export default async function WorkDetailPage({
               {uiLabels.sections.subProjectsArchive}
             </h3>
             {item.projects?.map((proj) => {
+              const generateSlug = (name: string): string => {
+                let slug = name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
+                if (slug.startsWith("-")) slug = slug.slice(1);
+                if (slug.endsWith("-")) slug = slug.slice(0, -1);
+                return slug;
+              };
+              const projectSlug = proj.slug || generateSlug(proj.name);
+
               const ProjectCard = (
                 <>
                   <h4 className="text-2xl font-black uppercase mb-2 underline">
@@ -78,18 +85,14 @@ export default async function WorkDetailPage({
                 </>
               );
 
-              return proj.slug ? (
+              return (
                 <Link
-                  key={proj.slug}
-                  href={`/work/${encodeURIComponent(item.id)}/${encodeURIComponent(proj.slug)}`}
-                  className="sketch-card bg-white p-8 hover:translate-y-[-4px] transition-transform block cursor-pointer"
+                  key={projectSlug}
+                  href={`/work/${encodeURIComponent(item.id)}/${encodeURIComponent(projectSlug)}`}
+                  className="sketch-card bg-white p-8 hover:translate-y-[-4px] hover:shadow-lg transition-all block cursor-pointer group"
                 >
                   {ProjectCard}
                 </Link>
-              ) : (
-                <div key={proj.name} className="sketch-card bg-white p-8">
-                  {ProjectCard}
-                </div>
               );
             })}
           </div>

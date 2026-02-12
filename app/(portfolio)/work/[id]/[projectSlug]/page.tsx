@@ -19,9 +19,17 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  const project = workItem.projects?.find(
-    (p) => p.slug === decodedSlug
-  );
+  // Find project by slug, or by generated slug from name (backward compatibility)
+  const generateSlug = (name: string): string => {
+    let slug = name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-");
+    if (slug.startsWith("-")) slug = slug.slice(1);
+    if (slug.endsWith("-")) slug = slug.slice(0, -1);
+    return slug;
+  };
+  const project = workItem.projects?.find((p) => {
+    const projectSlug = p.slug || generateSlug(p.name);
+    return projectSlug === decodedSlug;
+  });
 
   if (!project) {
     notFound();
