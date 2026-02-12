@@ -1,4 +1,7 @@
-import { getSiteContentUseCase, getProfileContentUseCase } from "@/src/application/di/container";
+import {
+  getSiteContentUseCase,
+  getProfileContentUseCase,
+} from "@/src/application/di/container";
 import ContactPageClient from "./contact-client";
 
 export default async function ContactPage() {
@@ -7,5 +10,28 @@ export default async function ContactPage() {
     getProfileContentUseCase.execute(),
   ]);
 
-  return <ContactPageClient siteContent={siteContent} profile={profile} />;
+  const siteContentPlain = siteContent
+    ? {
+        hero: siteContent.hero,
+        methodology: siteContent.methodology,
+        cta: siteContent.cta,
+        navigation: siteContent.navigation,
+        footer: siteContent.footer,
+        workSectionTitle: siteContent.workSectionTitle,
+      }
+    : null;
+
+  const profilePlain = profile
+    ? {
+        profileText: profile.profileText,
+        skills: profile.skills,
+        education: profile.education,
+        contactInfo: profile.contactInfo,
+        availability: profile.availability,
+      }
+    : null;
+
+  return (
+    <ContactPageClient siteContent={siteContentPlain} profile={profilePlain} />
+  );
 }

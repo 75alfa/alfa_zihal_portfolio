@@ -1,7 +1,10 @@
 import { BlogTeaserSection } from "@/components/portfolio/BlogTeaserSection";
 import { FinalCTASection } from "@/components/portfolio/FinalCTASection";
 import { HomePageClient } from "@/components/portfolio/HomePageClient";
-import { getSiteContentUseCase, getWorkItemsUseCase } from "@/src/application/di/container";
+import {
+  getSiteContentUseCase,
+  getWorkItemsUseCase,
+} from "@/src/application/di/container";
 
 export default async function HomePage() {
   const [siteContent, workItems] = await Promise.all([
@@ -9,7 +12,6 @@ export default async function HomePage() {
     getWorkItemsUseCase.execute(),
   ]);
 
-  // Convert WorkItem class instances to plain objects for client component serialization
   const workItemsPlain = workItems.map((item) => ({
     id: item.id,
     title: item.title,
@@ -28,11 +30,25 @@ export default async function HomePage() {
     tags: item.tags,
   }));
 
+  const siteContentPlain = siteContent
+    ? {
+        hero: siteContent.hero,
+        methodology: siteContent.methodology,
+        cta: siteContent.cta,
+        navigation: siteContent.navigation,
+        footer: siteContent.footer,
+        workSectionTitle: siteContent.workSectionTitle,
+      }
+    : null;
+
   return (
-    <main className="max-w-5xl mx-auto px-6 pt-12 pb-32 pt-24 md:pt-32">
-      <HomePageClient siteContent={siteContent} workItems={workItemsPlain} />
+    <main className="max-w-5xl mx-auto px-6 pb-32 pt-24 md:pt-32">
+      <HomePageClient
+        siteContent={siteContentPlain}
+        workItems={workItemsPlain}
+      />
       <BlogTeaserSection />
-      <FinalCTASection siteContent={siteContent} />
+      <FinalCTASection siteContent={siteContentPlain} />
     </main>
   );
 }

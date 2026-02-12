@@ -1,4 +1,12 @@
-import { Search, PenTool, GitBranch, Hand, Zap, ShieldCheck, Minus } from "lucide-react";
+import {
+  Search,
+  PenTool,
+  GitBranch,
+  Hand,
+  Zap,
+  ShieldCheck,
+  Minus,
+} from "lucide-react";
 import Link from "next/link";
 import { SiteContent } from "@/src/domain/entities/Content";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
@@ -7,9 +15,11 @@ interface FinalCTASectionProps {
   siteContent?: SiteContent | null;
 }
 
-export function FinalCTASection({ siteContent }: FinalCTASectionProps) {
+export function FinalCTASection({
+  siteContent,
+}: Readonly<FinalCTASectionProps>) {
   const cta = siteContent?.cta;
-  
+
   return (
     <section className="relative mt-52 mb-20">
       <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-blue-100 border-2 border-black p-2 px-8 rotate-[-1deg] font-black uppercase shadow-sm z-10">
@@ -17,7 +27,7 @@ export function FinalCTASection({ siteContent }: FinalCTASectionProps) {
       </div>
 
       <div className="sketch-card bg-white p-12 text-center relative overflow-hidden">
-        <div className="hidden lg:block absolute left-10 top-1/2 -translate-y-1/2 flex flex-col gap-12">
+        <div className="hidden lg:flex absolute left-10 top-1/2 -translate-y-1/2 flex-col gap-12">
           <div className="w-24 h-24 border-2 border-black bg-yellow-50 rotate-[-8deg] flex flex-col items-center justify-center p-2 shadow-sm">
             <Search size={24} className="mb-1" />
             <span className="text-[8px] font-black uppercase">Research</span>
@@ -34,7 +44,7 @@ export function FinalCTASection({ siteContent }: FinalCTASectionProps) {
           </div>
         </div>
 
-        <div className="hidden lg:block absolute right-10 top-1/2 -translate-y-1/2 flex flex-col gap-12">
+        <div className="hidden lg:flex absolute right-10 top-1/2 -translate-y-1/2 flex-col gap-12">
           <div className="w-24 h-24 border-2 border-black bg-green-50 rotate-[6deg] flex flex-col items-center justify-center p-2 shadow-sm">
             <GitBranch size={24} className="mb-1" />
             <span className="text-[8px] font-black uppercase">User_Flow</span>
@@ -53,20 +63,21 @@ export function FinalCTASection({ siteContent }: FinalCTASectionProps) {
 
         <div className="max-w-xl mx-auto py-10">
           <h2 className="text-4xl md:text-5xl font-black uppercase mb-6 tracking-tighter italic">
-            {cta?.title || "Ready to start the next flow?"}
+            {cta?.availabilityText}
           </h2>
           <p className="text-lg opacity-60 mb-10 leading-relaxed font-bold">
-            {cta?.description || "I'm currently looking for new puzzles and complex system challenges to solve. Let's wireframe your vision together."}
+            {cta?.description}
           </p>
           <Link
             href="/contact"
             className="sketch-button py-5 px-12 bg-indigo-600 text-black text-xl font-black uppercase flex items-center gap-4 mx-auto group w-fit"
           >
-            {cta?.buttonText || "Start a Project"} <Zap size={24} className="group-hover:animate-pulse" />
+            {cta?.buttonText}{" "}
+            <Zap size={24} className="group-hover:animate-pulse" />
           </Link>
           <div className="mt-8 flex items-center justify-center gap-3 opacity-30 text-[10px] font-black uppercase">
-            <ShieldCheck size={14} /> NDA Friendly <Minus size={12} /> Logic-Driven
-            Design
+            <ShieldCheck size={14} /> NDA Friendly <Minus size={12} />{" "}
+            {cta?.rateText}
           </div>
         </div>
       </div>

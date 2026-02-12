@@ -8,9 +8,8 @@ interface PortfolioNavProps {
   siteContent?: SiteContent | null;
 }
 
-export function PortfolioNav({ siteContent }: PortfolioNavProps) {
+export function PortfolioNav({ siteContent }: Readonly<PortfolioNavProps>) {
   const pathname = usePathname();
-  const isHome = pathname === "/";
 
   return (
     <nav className="sticky top-0 z-40 bg-[#f0f0f0] border-b-4 border-black p-2 flex items-center justify-between shadow-sm">
@@ -23,28 +22,22 @@ export function PortfolioNav({ siteContent }: PortfolioNavProps) {
       </Link>
       <div className="flex gap-2">
         <Link
-          href="/"
-          className={`sketch-button text-xs font-bold ${isHome ? "bg-blue-200" : "bg-white"}`}
-        >
-          {siteContent?.navigation.canvasView || "CANVAS VIEW"}
-        </Link>
-        <Link
           href="/resume"
           className={`sketch-button text-xs font-bold ${pathname === "/resume" ? "bg-blue-200" : "bg-white"}`}
         >
-          {siteContent?.navigation.workHistory || "WORK HISTORY"}
+          {siteContent?.navigation?.workHistory}
         </Link>
         <Link
           href="/contact"
           className={`sketch-button text-xs font-bold ${pathname === "/contact" ? "bg-blue-200" : "bg-white"}`}
         >
-          {siteContent?.navigation.contact || "CONTACT"}
+          {siteContent?.navigation?.contact}
         </Link>
         <Link
           href="/blog"
           className={`sketch-button text-xs font-bold ${pathname === "/blog" ? "bg-blue-200" : "bg-white"}`}
         >
-          {siteContent?.navigation.blog || "BLOG"}
+          {siteContent?.navigation?.blog}
         </Link>
       </div>
     </nav>

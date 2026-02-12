@@ -8,8 +8,20 @@ export default async function PortfolioLayout({
 }) {
   const siteContent = await getSiteContentUseCase.execute();
 
+  // Convert SiteContent class instance to plain object for client component serialization
+  const siteContentPlain = siteContent
+    ? {
+        hero: siteContent.hero,
+        methodology: siteContent.methodology,
+        cta: siteContent.cta,
+        navigation: siteContent.navigation,
+        footer: siteContent.footer,
+        workSectionTitle: siteContent.workSectionTitle,
+      }
+    : null;
+
   return (
-    <PortfolioLayoutClient siteContent={siteContent}>
+    <PortfolioLayoutClient siteContent={siteContentPlain}>
       {children}
     </PortfolioLayoutClient>
   );

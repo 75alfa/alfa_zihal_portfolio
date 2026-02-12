@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Smartphone,
   Target,
@@ -14,7 +14,6 @@ import Link from "next/link";
 import { MethodologySection } from "@/components/portfolio/MethodologySection";
 import { WorkOverview, Project } from "@/src/domain/entities/WorkItem";
 import { SiteContent } from "@/src/domain/entities/Content";
-import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 import { urlForImage } from "@/src/infrastructure/sanity/image";
 
 // Plain object type for serialization (matches WorkItem but without class)
@@ -43,17 +42,20 @@ interface HomePageClientProps {
   workItems: WorkItemPlain[];
 }
 
-export function HomePageClient({ siteContent, workItems }: HomePageClientProps) {
+export function HomePageClient({
+  siteContent,
+  workItems,
+}: Readonly<HomePageClientProps>) {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
   const [hoveredWorkId, setHoveredWorkId] = useState<string | null>(null);
   const [typedText, setTypedText] = useState("");
-  const headline = siteContent?.hero.headline || "Alfa Zihal: UX & Product Designer";
+  const headline = siteContent?.hero.headline;
 
   useEffect(() => {
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
-      if (currentIndex <= headline.length) {
-        setTypedText(headline.slice(0, currentIndex));
+      if (currentIndex <= headline!.length) {
+        setTypedText(headline!.slice(0, currentIndex));
         currentIndex++;
       } else {
         clearInterval(typingInterval);
@@ -64,12 +66,11 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
 
   return (
     <>
-      {/* Hero Section */}
       <section className="mb-24 flex flex-col md:flex-row gap-12 items-start">
         <div className="flex-1">
           <div className="inline-block sketch-border bg-yellow-100 px-6 py-4 mb-6 rotate-[-1deg] min-h-[4rem] flex items-center relative group">
             <div className="absolute -top-3 -left-3 bg-white border-2 border-black px-2 text-[10px] font-black uppercase rotate-[-5deg] shadow-sm">
-              {siteContent?.hero.experienceBadge || "+5 years experience"}
+              {siteContent?.hero.experienceBadge}
             </div>
             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tight">
               {typedText}
@@ -77,17 +78,17 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
             </h1>
           </div>
           <p className="text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl">
-            {siteContent?.hero.subheadline || "I focus on the logic before the pixels. I build the foundation, define flows, and create structured systems that turn complex problems into intuitive experiences."}
+            {siteContent?.hero.subheadline}
           </p>
           <div className="flex gap-4">
             <Link
               href="/contact"
               className="sketch-button py-3 px-8 text-lg bg-blue-50"
             >
-              {siteContent?.hero.ctaPrimary || "Hire me !"}
+              {siteContent?.hero.ctaPrimary}
             </Link>
             <Link href="/resume" className="sketch-button py-3 px-8 text-lg">
-              {siteContent?.hero.ctaSecondary || "Work History"}
+              {siteContent?.hero.ctaSecondary}
             </Link>
           </div>
         </div>
@@ -129,7 +130,7 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
       {/* Work Section */}
       <section className="relative mb-32">
         <div className="absolute -top-12 left-0 bg-blue-100 border-2 border-black p-2 px-6 rotate-[-2deg] font-bold shadow-sm z-10">
-          {siteContent?.workSectionTitle || "SOME OF MY WORK"}
+          {siteContent?.workSectionTitle || ""}
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
@@ -170,7 +171,9 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
               <h3 className="text-2xl font-black mb-1 uppercase tracking-tight leading-none">
                 {item.title}
               </h3>
-              <p className="mb-4 opacity-75 text-sm italic">{item.description}</p>
+              <p className="mb-4 opacity-75 text-sm italic">
+                {item.description}
+              </p>
 
               <div className="mb-6 overflow-hidden">
                 <div className="mx-auto relative">
@@ -222,7 +225,10 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
                         <div className="flex-1 relative min-h-0">
                           {item.coverImage ? (
                             <Image
-                              src={urlForImage(item.coverImage).width(800).height(400).url()}
+                              src={urlForImage(item.coverImage)
+                                .width(800)
+                                .height(400)
+                                .url()}
                               alt={item.title}
                               fill
                               className="object-cover"
@@ -242,7 +248,10 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
                         <div className="flex-1 min-h-0 relative">
                           {item.coverImage ? (
                             <Image
-                              src={urlForImage(item.coverImage).width(800).height(400).url()}
+                              src={urlForImage(item.coverImage)
+                                .width(800)
+                                .height(400)
+                                .url()}
                               alt={item.title}
                               fill
                               className="object-cover"

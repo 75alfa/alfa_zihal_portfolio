@@ -15,12 +15,12 @@ interface PortfolioLayoutClientProps {
 export function PortfolioLayoutClient({
   children,
   siteContent,
-}: PortfolioLayoutClientProps) {
+}: Readonly<PortfolioLayoutClientProps>) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);
+      setIsMobile(window.innerWidth < 768 || "ontouchstart" in globalThis);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
