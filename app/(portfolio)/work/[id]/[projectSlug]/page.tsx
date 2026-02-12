@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getWorkItemByIdUseCase } from "@/src/application/di/container";
 import ProjectDetailClient from "./project-detail-client";
+import { type PortableTextBlock } from "@portabletext/react";
 
 interface ProjectDetailPageProps {
   readonly params: Promise<{ id: string; projectSlug: string }>;
@@ -34,12 +35,23 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  const projectPlain = {
+  const projectPlain: {
+    name: string;
+    slug: string;
+    desc: string;
+    details: string;
+    fullDocumentation?: PortableTextBlock[];
+    solutionImages?: Array<{
+      asset: { _ref: string };
+      alt?: string;
+      caption?: string;
+    }>;
+  } = {
     name: project.name,
     slug: project.slug,
     desc: project.desc,
     details: project.details,
-    fullDocumentation: project.fullDocumentation,
+    fullDocumentation: project.fullDocumentation as PortableTextBlock[] | undefined,
     solutionImages: project.solutionImages,
   };
 

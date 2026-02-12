@@ -3,7 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { PortableText } from "@portabletext/react";
+import { PortableText, type PortableTextBlock } from "@portabletext/react";
 import { urlForImage } from "@/src/infrastructure/sanity/image";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
@@ -15,7 +15,7 @@ interface ProjectDetailClientProps {
     slug: string;
     desc: string;
     details: string;
-    fullDocumentation?: unknown;
+    fullDocumentation?: PortableTextBlock[];
     solutionImages?: Array<{
       asset: { _ref: string };
       alt?: string;
@@ -23,6 +23,86 @@ interface ProjectDetailClientProps {
     }>;
   };
 }
+
+// PortableText components extracted to avoid inline component warnings
+const portableTextComponents = {
+  block: {
+    normal: ({ children }: { children?: React.ReactNode }) => (
+      <p className="mb-4 leading-relaxed">{children}</p>
+    ),
+    h1: ({ children }: { children?: React.ReactNode }) => (
+      <h1 className="text-4xl font-black uppercase mt-8 mb-4">{children}</h1>
+    ),
+    h2: ({ children }: { children?: React.ReactNode }) => (
+      <h2 className="text-3xl font-black uppercase mt-8 mb-4">{children}</h2>
+    ),
+    h3: ({ children }: { children?: React.ReactNode }) => (
+      <h3 className="text-2xl font-black uppercase mt-6 mb-3">{children}</h3>
+    ),
+  },
+  list: {
+    bullet: ({ children }: { children?: React.ReactNode }) => (
+      <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>
+    ),
+    number: ({ children }: { children?: React.ReactNode }) => (
+      <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }: { children?: React.ReactNode }) => (
+      <li className="ml-4">{children}</li>
+    ),
+    number: ({ children }: { children?: React.ReactNode }) => (
+      <li className="ml-4">{children}</li>
+    ),
+  },
+  marks: {
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <strong className="font-black">{children}</strong>
+    ),
+    em: ({ children }: { children?: React.ReactNode }) => (
+      <em className="italic">{children}</em>
+    ),
+    link: ({
+      children,
+      value,
+    }: {
+      children?: React.ReactNode;
+      value?: { href?: string };
+    }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline text-blue-600 hover:text-blue-800"
+      >
+        {children}
+      </a>
+    ),
+  },
+  types: {
+    image: ({ value }: { value?: { asset?: { _ref: string }; alt?: string } }) => {
+      if (!value?.asset) return null;
+      return (
+        <div className="my-8">
+          <Image
+            src={urlForImage({ asset: value.asset })
+              .width(800)
+              .height(600)
+              .url()}
+            alt={value.alt || "Documentation image"}
+            width={800}
+            height={600}
+            className="w-full h-auto border-2 border-black"
+          />
+          {value.alt && (
+            <p className="text-sm italic opacity-75 mt-2">{value.alt}</p>
+          )}
+        </div>
+      );
+    },
+  },
+} as const;
 
 export default function ProjectDetailClient({
   workItemId,
@@ -34,8 +114,12 @@ export default function ProjectDetailClient({
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-2 mb-8">
         <Link
-          href="/"
+          href="#"
           className="sketch-button flex items-center gap-2 text-sm"
+          onClick={(e) => {
+            e.preventDefault();
+            globalThis.history.back();
+          }}
         >
           <ArrowLeft size={16} /> {uiLabels.navigation.back}
         </Link>
@@ -63,108 +147,27 @@ export default function ProjectDetailClient({
             <span className="font-black uppercase text-sm">
               {uiLabels.sections.notes}:{" "}
             </span>
-            {project.details}
+            <span>{String(project.details)}</span>
           </div>
         )}
       </div>
 
       {/* Full Documentation */}
-      {project.fullDocumentation && (
-        <div className="sketch-card bg-white p-8 mb-12">
-          <h2 className="text-3xl font-black uppercase mb-6 underline decoration-4">
-            Full Documentation
-          </h2>
-          <div className="prose prose-lg max-w-none sketch-content">
-            <PortableText
-              value={project.fullDocumentation}
-              components={{
-                block: {
-                  normal: ({ children }) => (
-                    <p className="mb-4 leading-relaxed">{children}</p>
-                  ),
-                  h1: ({ children }) => (
-                    <h1 className="text-4xl font-black uppercase mt-8 mb-4">
-                      {children}
-                    </h1>
-                  ),
-                  h2: ({ children }) => (
-                    <h2 className="text-3xl font-black uppercase mt-8 mb-4">
-                      {children}
-                    </h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-2xl font-black uppercase mt-6 mb-3">
-                      {children}
-                    </h3>
-                  ),
-                },
-                list: {
-                  bullet: ({ children }) => (
-                    <ul className="list-disc list-inside mb-4 space-y-2">
-                      {children}
-                    </ul>
-                  ),
-                  number: ({ children }) => (
-                    <ol className="list-decimal list-inside mb-4 space-y-2">
-                      {children}
-                    </ol>
-                  ),
-                },
-                listItem: {
-                  bullet: ({ children }) => (
-                    <li className="ml-4">{children}</li>
-                  ),
-                  number: ({ children }) => (
-                    <li className="ml-4">{children}</li>
-                  ),
-                },
-                marks: {
-                  strong: ({ children }) => (
-                    <strong className="font-black">{children}</strong>
-                  ),
-                  em: ({ children }) => (
-                    <em className="italic">{children}</em>
-                  ),
-                  link: ({ children, value }) => (
-                    <a
-                      href={value?.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline text-blue-600 hover:text-blue-800"
-                    >
-                      {children}
-                    </a>
-                  ),
-                },
-                types: {
-                  image: ({ value }) => {
-                    if (!value?.asset) return null;
-                    return (
-                      <div className="my-8">
-                        <Image
-                          src={urlForImage({ asset: value.asset })
-                            .width(800)
-                            .height(600)
-                            .url()}
-                          alt={value.alt || "Documentation image"}
-                          width={800}
-                          height={600}
-                          className="w-full h-auto border-2 border-black"
-                        />
-                        {value.alt && (
-                          <p className="text-sm italic opacity-75 mt-2">
-                            {value.alt}
-                          </p>
-                        )}
-                      </div>
-                    );
-                  },
-                },
-              }}
-            />
+      {project.fullDocumentation &&
+        Array.isArray(project.fullDocumentation) &&
+        project.fullDocumentation.length > 0 && (
+          <div className="sketch-card bg-white p-8 mb-12">
+            <h2 className="text-3xl font-black uppercase mb-6 underline decoration-4">
+              Full Documentation
+            </h2>
+            <div className="prose prose-lg max-w-none sketch-content">
+              <PortableText
+                value={project.fullDocumentation}
+                components={portableTextComponents as any}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Solution Images Gallery */}
       {project.solutionImages && project.solutionImages.length > 0 && (
@@ -173,7 +176,7 @@ export default function ProjectDetailClient({
             Solution Images
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {project.solutionImages.map((img) => (
+            {project.solutionImages.map((img, index) => (
               <div key={img.asset._ref} className="flex flex-col gap-2">
                 <div className="relative aspect-[4/3] border-2 border-black overflow-hidden">
                   <Image
