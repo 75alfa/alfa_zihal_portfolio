@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MousePointer2 } from "lucide-react";
+import { SiteContent } from "@/src/domain/entities/Content";
 
-export function CustomCursor() {
+interface CustomCursorProps {
+  siteContent?: SiteContent | null;
+}
+
+export function CustomCursor({ siteContent }: Readonly<CustomCursorProps>) {
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
 
@@ -62,7 +67,7 @@ export function CustomCursor() {
         className="-rotate-[15deg]"
       />
       <div className="bg-white border-2 border-black px-2 py-0.5 ml-4 -mt-2 text-xs font-bold shadow-sm">
-        Alfa Zihal {isHovering ? "?" : ""}
+        {siteContent?.hero?.name} {isHovering ? "?" : ""}
       </div>
     </div>
   );

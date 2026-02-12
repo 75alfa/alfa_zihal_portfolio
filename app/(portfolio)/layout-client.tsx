@@ -27,12 +27,14 @@ export function PortfolioLayoutClient({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const isDesktop = !isMobile;
+
   return (
     <div
-      className={`min-h-screen graph-paper balsamiq-font text-black ${!isMobile ? "cursor-none" : ""}`}
+      className={`min-h-screen graph-paper balsamiq-font text-black ${isDesktop ? "cursor-none" : ""}`}
     >
       <BalsamiqStyles />
-      {!isMobile && <CustomCursor />}
+      {!isMobile && <CustomCursor siteContent={siteContent} />}
       <PortfolioNav siteContent={siteContent} />
       {children}
       <MinimalFooter siteContent={siteContent} />
