@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Smartphone,
   Target,
@@ -12,35 +12,65 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { MethodologySection } from "@/components/portfolio/MethodologySection";
-import { workItems } from "@/lib/data";
+import { WorkOverview, Project } from "@/src/domain/entities/WorkItem";
+import { SiteContent } from "@/src/domain/entities/Content";
+import { urlForImage } from "@/src/infrastructure/sanity/image";
 
-export function HomePageClient() {
+// Plain object type for serialization (matches WorkItem but without class)
+type WorkItemPlain = {
+  id: string;
+  title: string;
+  type: string;
+  description: string;
+  isEnterprise: boolean;
+  isMobile?: boolean;
+  period?: string;
+  logoInitials?: string;
+  coverImage?: {
+    asset: { _ref: string };
+  };
+  overview?: WorkOverview;
+  projects?: Project[];
+  context?: string;
+  problem?: string;
+  solution?: string;
+  tags?: string[];
+};
+
+interface HomePageClientProps {
+  siteContent?: SiteContent | null;
+  workItems: WorkItemPlain[];
+}
+
+export function HomePageClient({
+  siteContent,
+  workItems,
+}: Readonly<HomePageClientProps>) {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
   const [hoveredWorkId, setHoveredWorkId] = useState<string | null>(null);
   const [typedText, setTypedText] = useState("");
-  const headline = "Alfa Zihal: UX & Product Designer";
+  const headline = siteContent?.hero.headline;
 
   useEffect(() => {
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
-      if (currentIndex <= headline.length) {
-        setTypedText(headline.slice(0, currentIndex));
+      if (currentIndex <= headline!.length) {
+        setTypedText(headline!.slice(0, currentIndex));
         currentIndex++;
       } else {
         clearInterval(typingInterval);
       }
     }, 80);
     return () => clearInterval(typingInterval);
-  }, []);
+  }, [headline]);
 
   return (
     <>
-      {/* Hero Section */}
       <section className="mb-24 flex flex-col md:flex-row gap-12 items-start">
         <div className="flex-1">
           <div className="inline-block sketch-border bg-yellow-100 px-6 py-4 mb-6 rotate-[-1deg] min-h-[4rem] flex items-center relative group">
             <div className="absolute -top-3 -left-3 bg-white border-2 border-black px-2 text-[10px] font-black uppercase rotate-[-5deg] shadow-sm">
-              {"+5 years experience"}
+              {siteContent?.hero.experienceBadge}
             </div>
             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tight">
               {typedText}
@@ -48,66 +78,75 @@ export function HomePageClient() {
             </h1>
           </div>
           <p className="text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl">
-            {"I focus on the logic before the pixels. I build the foundation, define flows, and create structured systems that turn complex problems into intuitive experiences."}
+            {siteContent?.hero.subheadline}
           </p>
           <div className="flex gap-4">
             <Link
               href="/contact"
               className="sketch-button py-3 px-8 text-lg bg-blue-50"
             >
-              Hire me !
+              {siteContent?.hero.ctaPrimary}
             </Link>
             <Link href="/resume" className="sketch-button py-3 px-8 text-lg">
-              Work History
+              {siteContent?.hero.ctaSecondary}
             </Link>
           </div>
         </div>
 
         <div
           className="relative w-48 h-48 md:w-64 md:h-64 cursor-help"
+          role="img"
+          aria-label="Profile images with hover effect"
           onMouseEnter={() => setIsProfileHovered(true)}
           onMouseLeave={() => setIsProfileHovered(false)}
+          onFocus={() => setIsProfileHovered(true)}
+          onBlur={() => setIsProfileHovered(false)}
+          tabIndex={0}
         >
-          <div
-            className={`absolute inset-0 border-2 border-black border-dashed flex items-center justify-center bg-blue-50 duration-500 transition-[transform,opacity] ${isProfileHovered ? "rotate-6 translate-x-4 translate-y-4 opacity-100" : "rotate-0 opacity-0 scale-95"}`}
-          >
-            <Image
-              src="/Personality.png"
-              alt="personality image"
-              className="w-full h-full"
-              width={100}
-              height={100}
-            />
-          </div>
-          <div
-            className={`absolute inset-0 border-2 border-black bg-gray-50 duration-500 transition-[transform,opacity,filter] ${isProfileHovered ? "-rotate-12 -translate-x-8 -translate-y-4 opacity-20 grayscale" : "rotate-2 opacity-100"}`}
-          >
-            <Image
-              src="/Profile.png"
-              alt="profile image"
-              className="object-cover w-full h-full"
-              width={100}
-              height={100}
-            />
-          </div>
+          {siteContent?.hero.heroImageOne && (
+            <div
+              className={`absolute inset-0 border-2 border-black border-dashed flex items-center justify-center bg-blue-50 duration-500 transition-[transform,opacity] ${isProfileHovered ? "rotate-6 translate-x-4 translate-y-4 opacity-100" : "rotate-0 opacity-0 scale-95"}`}
+            >
+              <Image
+                src={urlForImage(siteContent.hero.heroImageOne).width(400).height(400).url()}
+                alt="personality image"
+                className="w-full h-full object-cover"
+                width={400}
+                height={400}
+              />
+            </div>
+          )}
+          {siteContent?.hero.heroImageTwo && (
+            <div
+              className={`absolute inset-0 border-2 border-black bg-gray-50 duration-500 transition-[transform,opacity,filter] ${isProfileHovered ? "-rotate-12 -translate-x-8 -translate-y-4 opacity-20 grayscale" : "rotate-2 opacity-100"}`}
+            >
+              <Image
+                src={urlForImage(siteContent.hero.heroImageTwo).width(400).height(400).url()}
+                alt="profile image"
+                className="object-cover w-full h-full"
+                width={400}
+                height={400}
+              />
+            </div>
+          )}
         </div>
       </section>
 
       <div className="hand-drawn-line mb-20 opacity-50"></div>
 
-      <MethodologySection colorClass="bg-blue-100" />
+      <MethodologySection colorClass="bg-blue-100" siteContent={siteContent} />
 
       {/* Work Section */}
       <section className="relative mb-32">
         <div className="absolute -top-12 left-0 bg-blue-100 border-2 border-black p-2 px-6 rotate-[-2deg] font-bold shadow-sm z-10">
-          {"SOME OF MY WORK"}
+          {siteContent?.workSectionTitle || ""}
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {workItems.map((item) => (
             <Link
               key={item.id}
-              href={`/work/${item.id}`}
+              href={`/work/${encodeURIComponent(item.id)}`}
               onMouseEnter={() => setHoveredWorkId(item.id)}
               onMouseLeave={() => setHoveredWorkId(null)}
               className={`sketch-card p-6 cursor-pointer hover:translate-y-[-4px] transition-transform block ${item.isEnterprise ? "enterprise-stack bg-gray-50" : "tape-effect bg-white"}`}
@@ -141,7 +180,9 @@ export function HomePageClient() {
               <h3 className="text-2xl font-black mb-1 uppercase tracking-tight leading-none">
                 {item.title}
               </h3>
-              <p className="mb-4 opacity-75 text-sm italic">{item.description}</p>
+              <p className="mb-4 opacity-75 text-sm italic">
+                {item.description}
+              </p>
 
               <div className="mb-6 overflow-hidden">
                 <div className="mx-auto relative">
@@ -193,7 +234,10 @@ export function HomePageClient() {
                         <div className="flex-1 relative min-h-0">
                           {item.coverImage ? (
                             <Image
-                              src={item.coverImage.startsWith("/") ? item.coverImage : `/${item.coverImage}`}
+                              src={urlForImage(item.coverImage)
+                                .width(800)
+                                .height(400)
+                                .url()}
                               alt={item.title}
                               fill
                               className="object-cover"
@@ -213,7 +257,10 @@ export function HomePageClient() {
                         <div className="flex-1 min-h-0 relative">
                           {item.coverImage ? (
                             <Image
-                              src={item.coverImage.startsWith("/") ? item.coverImage : `/${item.coverImage}`}
+                              src={urlForImage(item.coverImage)
+                                .width(800)
+                                .height(400)
+                                .url()}
                               alt={item.title}
                               fill
                               className="object-cover"

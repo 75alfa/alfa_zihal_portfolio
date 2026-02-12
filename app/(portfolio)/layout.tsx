@@ -1,36 +1,28 @@
-"use client";
+import { getSiteContentUseCase } from "@/src/application/di/container";
+import { PortfolioLayoutClient } from "./layout-client";
 
-import { useState, useEffect } from "react";
-import { BalsamiqStyles } from "@/components/portfolio/BalsamiqStyles";
-import { CustomCursor } from "@/components/portfolio/CustomCursor";
-import { PortfolioNav } from "@/components/portfolio/PortfolioNav";
-import { MinimalFooter } from "@/components/portfolio/MinimalFooter";
-
-export default function PortfolioLayout({
+export default async function PortfolioLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isMobile, setIsMobile] = useState(false);
+  const siteContent = await getSiteContentUseCase.execute();
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  // Convert SiteContent class instance to plain object for client component serialization
+  const siteContentPlain = siteContent
+    ? {
+        hero: siteContent.hero,
+        methodology: siteContent.methodology,
+        cta: siteContent.cta,
+        navigation: siteContent.navigation,
+        footer: siteContent.footer,
+        workSectionTitle: siteContent.workSectionTitle,
+      }
+    : null;
 
   return (
-    <div
-      className={`min-h-screen graph-paper balsamiq-font text-black ${!isMobile ? "cursor-none" : ""}`}
-    >
-      <BalsamiqStyles />
-      {!isMobile && <CustomCursor />}
-      <PortfolioNav />
+    <PortfolioLayoutClient siteContent={siteContentPlain}>
       {children}
-      <MinimalFooter />
-    </div>
+    </PortfolioLayoutClient>
   );
 }
