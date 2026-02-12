@@ -60,7 +60,7 @@ export function mapSanityContentToDomain(
 ): SiteContent {
   return new SiteContent(
     {
-      name: sanityContent.hero?.name || "Alfa Zihal",
+      name: sanityContent.hero?.name || "",
       headline: sanityContent.hero.headline,
       subheadline: sanityContent.hero.subheadline,
       ctaPrimary: sanityContent.hero?.ctaPrimary || "",
@@ -90,18 +90,16 @@ export function mapSanityContentToDomain(
       rateText: sanityContent.cta?.rateText || "",
     } as CTAContent,
     {
-      canvasView: sanityContent.navigation?.canvasView || "CANVAS VIEW",
-      workHistory: sanityContent.navigation?.workHistory || "WORK HISTORY",
-      contact: sanityContent.navigation?.contact || "CONTACT",
-      blog: sanityContent.navigation?.blog || "BLOG",
+      canvasView: sanityContent.navigation?.canvasView || "",
+      workHistory: sanityContent.navigation?.workHistory || "",
+      contact: sanityContent.navigation?.contact || "",
+      blog: sanityContent.navigation?.blog || "",
     } as NavigationContent,
     {
-      tagline:
-        sanityContent.footer?.tagline ||
-        "Everything is possible by prayer and UX",
-      linkedinLabel: sanityContent.footer?.linkedinLabel || "LINKEDIN",
-      dribbbleLabel: sanityContent.footer?.dribbbleLabel || "DRIBBBLE",
-      twitterLabel: sanityContent.footer?.twitterLabel || "TWITTER",
+      tagline: sanityContent.footer?.tagline || "",
+      linkedinLabel: sanityContent.footer?.linkedinLabel || "",
+      dribbbleLabel: sanityContent.footer?.dribbbleLabel || "",
+      twitterLabel: sanityContent.footer?.twitterLabel || "",
     } as FooterContent,
     sanityContent.workSectionTitle,
   );

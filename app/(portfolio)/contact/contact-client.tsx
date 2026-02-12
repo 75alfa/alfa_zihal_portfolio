@@ -129,7 +129,7 @@ export default function ContactPageClient({ siteContent, profile }: ContactPageC
                   <p className="text-[10px] font-black opacity-40 uppercase">
                     {uiLabels.sections.email}
                   </p>
-                  <p className="font-bold underline">{profile?.contactInfo.email || "aalfajiri75@gmail.com"}</p>
+                  <p className="font-bold underline">{profile?.contactInfo.email || ""}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 group cursor-pointer">
@@ -141,7 +141,7 @@ export default function ContactPageClient({ siteContent, profile }: ContactPageC
                     {uiLabels.sections.professionalNetwork}
                   </p>
                   <p className="font-bold underline">
-                    {profile?.contactInfo.linkedin || "linkedin.com/in/alfazihal"}
+                    {profile?.contactInfo.linkedin || ""}
                   </p>
                 </div>
               </div>
@@ -156,7 +156,7 @@ export default function ContactPageClient({ siteContent, profile }: ContactPageC
               {uiLabels.sections.currentAvailability}
             </h4>
             <p className="text-sm leading-relaxed mb-4">
-              {profile?.availability || siteContent?.cta.availabilityText || "Open for complex logic puzzles in B2B, B2C, FinTech, Blockchain and GovStack enterprise design systems."}
+              {profile?.availability || siteContent?.cta.availabilityText || ""}
             </p>
             <div className="flex items-center gap-2 text-indigo-600 font-black text-xs">
               <Zap size={14} fill="currentColor" /> {uiLabels.sections.rate} {siteContent?.cta.rateText || uiLabels.sections.fastTrack}

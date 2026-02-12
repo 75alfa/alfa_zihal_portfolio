@@ -38,7 +38,7 @@ export default async function ResumePage() {
             {uiLabels.sections.profile}
           </div>
           <p className="text-lg leading-relaxed">
-            {profile?.profileText || "Loading profile..."}
+            {profile?.profileText || ""}
           </p>
         </section>
 
@@ -56,7 +56,7 @@ export default async function ResumePage() {
               <div className="flex flex-col md:flex-row justify-between mb-2">
                 <h4 className="text-xl font-black uppercase">{item.title}</h4>
                 <span className="font-bold text-sm bg-gray-100 px-2 py-0.5 border border-black">
-                  {item.period || "2022 - Present"}
+                  {item.period || ""}
                 </span>
               </div>
               <p className="italic font-bold text-blue-800 mb-4">

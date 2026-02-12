@@ -12,10 +12,12 @@ import { getWorkItemByIdUseCase } from "@/src/application/di/container";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
 interface WorkDetailPageProps {
-  params: Promise<{ id: string }>;
+  readonly params: Promise<{ id: string }>;
 }
 
-export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
+export default async function WorkDetailPage({
+  params,
+}: Readonly<WorkDetailPageProps>) {
   const { id } = await params;
   // Decode the ID from URL (handles Sanity _id format)
   const decodedId = decodeURIComponent(id);
@@ -59,16 +61,37 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
             <h3 className="text-3xl font-black uppercase underline decoration-4">
               {uiLabels.sections.subProjectsArchive}
             </h3>
-            {item.projects?.map((proj, i) => (
-              <div key={i} className="sketch-card bg-white p-8">
-                <h4 className="text-2xl font-black uppercase mb-2 underline">
-                  {proj.name}
-                </h4>
-                <div className="p-4 border-2 border-black border-dashed bg-gray-50 text-md leading-relaxed">
-                  {uiLabels.sections.notes} {proj.details}
+            {item.projects?.map((proj) => {
+              const ProjectCard = (
+                <>
+                  <h4 className="text-2xl font-black uppercase mb-2 underline">
+                    {proj.name}
+                  </h4>
+                  {proj.desc && (
+                    <p className="text-lg mb-4 opacity-75 italic">
+                      {proj.desc}
+                    </p>
+                  )}
+                  <div className="p-4 border-2 border-black border-dashed bg-gray-50 text-md leading-relaxed">
+                    {uiLabels.sections.notes} {proj.details}
+                  </div>
+                </>
+              );
+
+              return proj.slug ? (
+                <Link
+                  key={proj.slug}
+                  href={`/work/${encodeURIComponent(item.id)}/${encodeURIComponent(proj.slug)}`}
+                  className="sketch-card bg-white p-8 hover:translate-y-[-4px] transition-transform block cursor-pointer"
+                >
+                  {ProjectCard}
+                </Link>
+              ) : (
+                <div key={proj.name} className="sketch-card bg-white p-8">
+                  {ProjectCard}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ) : (

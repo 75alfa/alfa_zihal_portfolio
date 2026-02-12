@@ -15,12 +15,12 @@ export interface SanityBlogPost {
 
 export function mapSanityBlogPostToDomain(sanityPost: SanityBlogPost): BlogPost {
   return new BlogPost(
-    sanityPost._id,
-    sanityPost.title,
-    sanityPost.slug,
-    sanityPost.publishedAt,
-    sanityPost.excerpt,
-    sanityPost.tags,
+    sanityPost._id || "",
+    sanityPost.title || "",
+    sanityPost.slug || "",
+    sanityPost.publishedAt || "",
+    sanityPost.excerpt || "",
+    sanityPost.tags || [],
     sanityPost.mainImage,
     sanityPost.body
   );

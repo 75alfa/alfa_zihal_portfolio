@@ -17,12 +17,10 @@ export const siteContentType = defineType({
         defineField({
           name: "heroImageOne",
           type: "image",
-          validation: (rule) => rule.required(),
         }),
         defineField({
           name: "heroImageTwo",
           type: "image",
-          validation: (rule) => rule.required(),
         }),
         defineField({
           name: "headline",
@@ -58,7 +56,6 @@ export const siteContentType = defineType({
         defineField({
           name: "title",
           type: "string",
-          validation: (rule) => rule.required(),
         }),
         defineField({
           name: "steps",

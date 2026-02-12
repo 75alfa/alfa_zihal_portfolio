@@ -71,6 +71,16 @@ export const workType = defineType({
             defineField({
               name: "name",
               type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "slug",
+              type: "slug",
+              options: {
+                source: "name",
+                maxLength: 96,
+              },
+              validation: (rule) => rule.required(),
             }),
             defineField({
               name: "desc",
@@ -79,6 +89,85 @@ export const workType = defineType({
             defineField({
               name: "details",
               type: "string",
+            }),
+            defineField({
+              name: "fullDocumentation",
+              type: "array",
+              of: [
+                {
+                  type: "block",
+                  styles: [
+                    { title: "Normal", value: "normal" },
+                    { title: "H1", value: "h1" },
+                    { title: "H2", value: "h2" },
+                    { title: "H3", value: "h3" },
+                  ],
+                  lists: [
+                    { title: "Bullet", value: "bullet" },
+                    { title: "Number", value: "number" },
+                  ],
+                  marks: {
+                    decorators: [
+                      { title: "Strong", value: "strong" },
+                      { title: "Emphasis", value: "em" },
+                    ],
+                    annotations: [
+                      {
+                        name: "link",
+                        type: "object",
+                        title: "URL",
+                        fields: [
+                          {
+                            title: "URL",
+                            name: "href",
+                            type: "url",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                },
+                {
+                  type: "image",
+                  options: {
+                    hotspot: true,
+                  },
+                  fields: [
+                    {
+                      name: "alt",
+                      type: "string",
+                      title: "Alternative text",
+                      description: "Important for SEO and accessibility.",
+                    },
+                  ],
+                },
+              ],
+            }),
+            defineField({
+              name: "solutionImages",
+              type: "array",
+              title: "Solution Images (Optional)",
+              of: [
+                {
+                  type: "image",
+                  options: {
+                    hotspot: true,
+                  },
+                  fields: [
+                    {
+                      name: "alt",
+                      type: "string",
+                      title: "Alternative text",
+                      description: "Important for SEO and accessibility.",
+                    },
+                    {
+                      name: "caption",
+                      type: "string",
+                      title: "Caption",
+                    },
+                  ],
+                },
+              ],
             }),
           ],
         },

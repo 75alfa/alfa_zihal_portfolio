@@ -6,8 +6,15 @@ export interface WorkOverview {
 
 export interface Project {
   name: string;
+  slug: string;
   desc: string;
   details: string;
+  fullDocumentation?: unknown; // PortableText type
+  solutionImages?: Array<{
+    asset: { _ref: string };
+    alt?: string;
+    caption?: string;
+  }>;
 }
 
 export class WorkItem {

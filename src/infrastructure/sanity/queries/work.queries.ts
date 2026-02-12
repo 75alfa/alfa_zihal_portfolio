@@ -9,7 +9,18 @@ export const workItemsQuery = `*[_type == "work" && !(_id in path("drafts.**"))]
   logoInitials,
   coverImage,
   overview,
-  projects,
+  projects[] {
+    name,
+    "slug": slug.current,
+    desc,
+    details,
+    fullDocumentation,
+    solutionImages[] {
+      asset,
+      alt,
+      caption
+    }
+  },
   context,
   problem,
   solution,
@@ -27,7 +38,18 @@ export const workItemByIdQuery = `*[_type == "work" && _id == $id && !(_id in pa
   logoInitials,
   coverImage,
   overview,
-  projects,
+  projects[] {
+    name,
+    "slug": slug.current,
+    desc,
+    details,
+    fullDocumentation,
+    solutionImages[] {
+      asset,
+      alt,
+      caption
+    }
+  },
   context,
   problem,
   solution,
