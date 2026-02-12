@@ -10,6 +10,21 @@ export const siteContentType = defineType({
       type: "object",
       fields: [
         defineField({
+          name: "name",
+          type: "string",
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: "heroImageOne",
+          type: "image",
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: "heroImageTwo",
+          type: "image",
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
           name: "headline",
           type: "string",
           validation: (rule) => rule.required(),
