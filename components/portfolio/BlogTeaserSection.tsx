@@ -44,7 +44,7 @@ export async function BlogTeaserSection() {
 
           return (
             <Link
-              key={post._id}
+              key={post.id}
               href={`/blog/${post.slug}`}
               className="sketch-card bg-white p-6 hover:rotate-1 hover:translate-y-[-2px] transition-transform block group"
             >

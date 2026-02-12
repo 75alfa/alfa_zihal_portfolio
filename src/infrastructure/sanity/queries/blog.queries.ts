@@ -1,4 +1,4 @@
-export const postsQuery = `*[_type == "post"] | order(publishedAt desc) {
+export const postsQuery = `*[_type == "post" && !(_id in path("drafts.**"))] | order(publishedAt desc) {
   _id,
   title,
   "slug": slug.current,
@@ -8,7 +8,7 @@ export const postsQuery = `*[_type == "post"] | order(publishedAt desc) {
   mainImage
 }`;
 
-export const postBySlugQuery = `*[_type == "post" && slug.current == $slug][0] {
+export const postBySlugQuery = `*[_type == "post" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
   _id,
   title,
   "slug": slug.current,

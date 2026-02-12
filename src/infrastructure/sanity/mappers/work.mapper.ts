@@ -2,7 +2,6 @@ import { WorkItem, WorkOverview, Project } from "../../../domain/entities/WorkIt
 
 export interface SanityWorkItem {
   _id: string;
-  id: string;
   title: string;
   type: string;
   description: string;
@@ -31,7 +30,7 @@ export interface SanityWorkItem {
 
 export function mapSanityWorkItemToDomain(sanityItem: SanityWorkItem): WorkItem {
   return new WorkItem(
-    sanityItem.id,
+    sanityItem._id,
     sanityItem.title,
     sanityItem.type,
     sanityItem.description,
@@ -39,7 +38,7 @@ export function mapSanityWorkItemToDomain(sanityItem: SanityWorkItem): WorkItem 
     sanityItem.isMobile,
     sanityItem.period,
     sanityItem.logoInitials,
-    sanityItem.coverImage?.asset?._ref ? sanityItem.coverImage.asset._ref : undefined,
+    sanityItem.coverImage ? sanityItem.coverImage : undefined,
     sanityItem.overview
       ? {
           goal: sanityItem.overview.goal,

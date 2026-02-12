@@ -5,9 +5,9 @@ import config from "@/sanity.config";
 
 export default function StudioPage() {
   return (
-    <NextStudio 
+    <NextStudio
       config={config}
-      unstable_noAuthBoundary
+      // unstable_noAuthBoundary
     />
   );
 }

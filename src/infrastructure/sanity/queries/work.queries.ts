@@ -1,6 +1,5 @@
-export const workItemsQuery = `*[_type == "work"] | order(_createdAt desc) {
+export const workItemsQuery = `*[_type == "work" && !(_id in path("drafts.**"))] | order(_createdAt desc) {
   _id,
-  id,
   title,
   type,
   description,
@@ -17,9 +16,8 @@ export const workItemsQuery = `*[_type == "work"] | order(_createdAt desc) {
   tags
 }`;
 
-export const workItemByIdQuery = `*[_type == "work" && id == $id][0] {
+export const workItemByIdQuery = `*[_type == "work" && _id == $id && !(_id in path("drafts.**"))][0] {
   _id,
-  id,
   title,
   type,
   description,

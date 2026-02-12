@@ -12,13 +12,35 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { MethodologySection } from "@/components/portfolio/MethodologySection";
-import { WorkItem } from "@/src/domain/entities/WorkItem";
+import { WorkOverview, Project } from "@/src/domain/entities/WorkItem";
 import { SiteContent } from "@/src/domain/entities/Content";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
+import { urlForImage } from "@/src/infrastructure/sanity/image";
+
+// Plain object type for serialization (matches WorkItem but without class)
+type WorkItemPlain = {
+  id: string;
+  title: string;
+  type: string;
+  description: string;
+  isEnterprise: boolean;
+  isMobile?: boolean;
+  period?: string;
+  logoInitials?: string;
+  coverImage?: {
+    asset: { _ref: string };
+  };
+  overview?: WorkOverview;
+  projects?: Project[];
+  context?: string;
+  problem?: string;
+  solution?: string;
+  tags?: string[];
+};
 
 interface HomePageClientProps {
   siteContent?: SiteContent | null;
-  workItems: WorkItem[];
+  workItems: WorkItemPlain[];
 }
 
 export function HomePageClient({ siteContent, workItems }: HomePageClientProps) {
@@ -114,7 +136,7 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
           {workItems.map((item) => (
             <Link
               key={item.id}
-              href={`/work/${item.id}`}
+              href={`/work/${encodeURIComponent(item.id)}`}
               onMouseEnter={() => setHoveredWorkId(item.id)}
               onMouseLeave={() => setHoveredWorkId(null)}
               className={`sketch-card p-6 cursor-pointer hover:translate-y-[-4px] transition-transform block ${item.isEnterprise ? "enterprise-stack bg-gray-50" : "tape-effect bg-white"}`}
@@ -200,7 +222,7 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
                         <div className="flex-1 relative min-h-0">
                           {item.coverImage ? (
                             <Image
-                              src={item.coverImage.startsWith("/") ? item.coverImage : `/${item.coverImage}`}
+                              src={urlForImage(item.coverImage).width(800).height(400).url()}
                               alt={item.title}
                               fill
                               className="object-cover"
@@ -220,7 +242,7 @@ export function HomePageClient({ siteContent, workItems }: HomePageClientProps) 
                         <div className="flex-1 min-h-0 relative">
                           {item.coverImage ? (
                             <Image
-                              src={item.coverImage.startsWith("/") ? item.coverImage : `/${item.coverImage}`}
+                              src={urlForImage(item.coverImage).width(800).height(400).url()}
                               alt={item.title}
                               fill
                               className="object-cover"

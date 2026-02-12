@@ -6,11 +6,6 @@ export const workType = defineType({
   type: "document",
   fields: [
     defineField({
-      name: "id",
-      type: "string",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: "title",
       type: "string",
       validation: (rule) => rule.required(),

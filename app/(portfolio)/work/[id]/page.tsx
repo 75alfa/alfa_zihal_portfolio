@@ -17,7 +17,9 @@ interface WorkDetailPageProps {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { id } = await params;
-  const item = await getWorkItemByIdUseCase.execute(id);
+  // Decode the ID from URL (handles Sanity _id format)
+  const decodedId = decodeURIComponent(id);
+  const item = await getWorkItemByIdUseCase.execute(decodedId);
 
   if (!item) {
     notFound();

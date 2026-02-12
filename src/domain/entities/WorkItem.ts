@@ -20,7 +20,9 @@ export class WorkItem {
     public readonly isMobile?: boolean,
     public readonly period?: string,
     public readonly logoInitials?: string,
-    public readonly coverImage?: string,
+    public readonly coverImage?: {
+      asset: { _ref: string };
+    },
     public readonly overview?: WorkOverview,
     public readonly projects?: Project[],
     public readonly context?: string,
