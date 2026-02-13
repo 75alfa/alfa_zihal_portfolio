@@ -4,6 +4,9 @@ import {
 } from "@/src/application/di/container";
 import ContactPageClient from "./contact-client";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function ContactPage() {
   const [siteContent, profile] = await Promise.all([
     getSiteContentUseCase.execute(),

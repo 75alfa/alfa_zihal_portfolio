@@ -6,6 +6,9 @@ import {
   getWorkItemsUseCase,
 } from "@/src/application/di/container";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function HomePage() {
   const [siteContent, workItems] = await Promise.all([
     getSiteContentUseCase.execute(),

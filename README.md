@@ -43,7 +43,10 @@ Create `.env.local` and set:
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_TOKEN=optional_for_studio
+REVALIDATE_SECRET=your-secret-token-here-change-in-production
 ```
+
+**Note:** `REVALIDATE_SECRET` is used to secure the webhook endpoint for on-demand revalidation. Generate a strong random string for production.
 
 ### Install & Run
 
@@ -71,6 +74,40 @@ Open [http://localhost:3000](http://localhost:3000). Content is managed in Sanit
 - **Site content** — single document for global site copy
 
 Images are served from Sanity CDN (`cdn.sanity.io`); see `next.config.mjs` for `remotePatterns`.
+
+## Incremental Static Regeneration (ISR)
+
+This site uses **Incremental Static Regeneration** to update content without full rebuilds:
+
+- **Time-based revalidation**: Pages regenerate every 60 seconds automatically
+- **On-demand revalidation**: Content changes trigger immediate updates via Sanity webhooks
+
+### Setting Up Sanity Webhook for On-Demand Revalidation
+
+To enable instant content updates when you publish changes in Sanity:
+
+1. Go to your Sanity project dashboard: https://www.sanity.io/manage
+2. Navigate to **API** → **Webhooks**
+3. Click **Create webhook**
+4. Configure the webhook:
+   - **Name**: `Next.js Revalidation`
+   - **URL**: `https://your-domain.com/api/revalidate` (replace with your production URL)
+   - **HTTP method**: `POST`
+   - **Dataset**: Select your production dataset
+   - **Trigger on**: Select `Create`, `Update`, and `Delete`
+   - **Filter**: Leave empty to trigger on all document types
+   - **HTTP Headers**: Add a custom header:
+     - **Name**: `x-revalidate-secret`
+     - **Value**: Your `REVALIDATE_SECRET` value from `.env.local`
+5. Click **Save**
+
+**Document Types Handled:**
+- `post` → Revalidates `/blog` and `/blog/[slug]`
+- `work` → Revalidates `/`, `/work/[id]`, `/work/[id]/[projectSlug]`, `/resume`
+- `siteContent` → Revalidates all pages (affects layout)
+- `profile` → Revalidates `/contact` and `/resume`
+
+**Note:** Webhook revalidation only works in production. In development, pages will still regenerate every 60 seconds via time-based revalidation.
 
 ## License
 

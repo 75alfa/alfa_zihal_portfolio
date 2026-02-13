@@ -13,6 +13,9 @@ import { getWorkItemByIdUseCase } from "@/src/application/di/container";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 import { urlForImage } from "@/src/infrastructure/sanity/image";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface WorkDetailPageProps {
   readonly params: Promise<{ id: string }>;
 }
