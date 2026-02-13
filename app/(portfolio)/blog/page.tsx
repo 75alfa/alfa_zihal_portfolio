@@ -3,6 +3,9 @@ import Link from "next/link";
 import { getBlogPostsUseCase } from "@/src/application/di/container";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function BlogPage() {
   const posts = await getBlogPostsUseCase.execute();
 

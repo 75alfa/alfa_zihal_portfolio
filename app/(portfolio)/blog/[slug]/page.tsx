@@ -7,6 +7,9 @@ import { getBlogPostBySlugUseCase } from "@/src/application/di/container";
 import { urlForImage } from "@/src/infrastructure/sanity/image";
 import { uiLabels } from "@/src/infrastructure/config/ui-labels";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface PostPageProps {
   params: Promise<{ slug: string }>;
 }

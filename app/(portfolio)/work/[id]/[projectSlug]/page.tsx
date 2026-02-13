@@ -3,6 +3,9 @@ import { getWorkItemByIdUseCase } from "@/src/application/di/container";
 import ProjectDetailClient from "./project-detail-client";
 import { type PortableTextBlock } from "@portabletext/react";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface ProjectDetailPageProps {
   readonly params: Promise<{ id: string; projectSlug: string }>;
 }

@@ -1,6 +1,9 @@
 import { getSiteContentUseCase } from "@/src/application/di/container";
 import { PortfolioLayoutClient } from "./layout-client";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function PortfolioLayout({
   children,
 }: {
