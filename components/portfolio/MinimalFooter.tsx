@@ -13,24 +13,31 @@ export function MinimalFooter({ siteContent }: MinimalFooterProps) {
       </div>
       <div className="flex gap-8">
         <a
-          href="#"
+        target="_blank"
+          href={siteContent?.footer.linkedinLabel || ""}
           className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
         >
-          <Linkedin size={16} /> {siteContent?.footer.linkedinLabel || ""}
+          <Linkedin size={16} /> {removeProtocolFromUrl(siteContent?.footer.linkedinLabel || "")}
         </a>
         <a
-          href="#"
+          target="_blank"
+          href={siteContent?.footer.dribbbleLabel || ""}
           className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
         >
-          <Dribbble size={16} /> {siteContent?.footer.dribbbleLabel || ""}
+          <Dribbble size={16} /> {removeProtocolFromUrl(siteContent?.footer.dribbbleLabel || "")}
         </a>
         <a
-          href="#"
+          target="_blank"
+          href={siteContent?.footer.twitterLabel || ""}
           className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
         >
-          <Twitter size={16} /> {siteContent?.footer.twitterLabel || ""}
+          <Twitter size={16} /> {removeProtocolFromUrl(siteContent?.footer.twitterLabel || "")}
         </a>
       </div>
     </div>
   );
+}
+
+function removeProtocolFromUrl(url: string) {
+  return url.replace(/^https?:\/\//, "");
 }
