@@ -150,16 +150,26 @@ export const siteContentType = defineType({
           type: "string",
         }),
         defineField({
-          name: "linkedinLabel",
-          type: "string",
-        }),
-        defineField({
-          name: "dribbble",
-          type: "string",
-        }),
-        defineField({
-          name: "twitter",
-          type: "string",
+          name: "socialLinks",
+          title: "Social Links",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              fields: [
+                defineField({
+                  name: "name",
+                  title: "Link Name",
+                  type: "string",
+                }),
+                defineField({
+                  name: "url",
+                  title: "Link URL",
+                  type: "url",
+                }),
+              ],
+            },
+          ],
         }),
       ],
     }),
@@ -167,23 +177,6 @@ export const siteContentType = defineType({
       name: "workSectionTitle",
       type: "string",
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "redirection",
-      title: "Redirection Link",
-      type: "object",
-      fields: [
-        defineField({
-          name: "linkName",
-          title: "Link Name",
-          type: "string",
-        }),
-        defineField({
-          name: "linkUrl",
-          title: "Link Redirection Address",
-          type: "url",
-        }),
-      ],
     }),
   ],
 });
