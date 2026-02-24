@@ -48,9 +48,10 @@ export interface SanitySiteContent {
   } | null;
   footer?: {
     tagline?: string;
-    linkedinLabel?: string;
-    dribbbleLabel?: string;
-    twitterLabel?: string;
+    socialLinks?: Array<{
+      name: string;
+      url: string;
+    }>;
   } | null;
   workSectionTitle: string;
 }
@@ -97,9 +98,10 @@ export function mapSanityContentToDomain(
     } as NavigationContent,
     {
       tagline: sanityContent.footer?.tagline || "",
-      linkedinLabel: sanityContent.footer?.linkedinLabel || "",
-      dribbbleLabel: sanityContent.footer?.dribbbleLabel || "",
-      twitterLabel: sanityContent.footer?.twitterLabel || "",
+      socialLinks: (sanityContent.footer?.socialLinks || []).map((link) => ({
+        name: link.name || "",
+        url: link.url || "",
+      })),
     } as FooterContent,
     sanityContent.workSectionTitle,
   );

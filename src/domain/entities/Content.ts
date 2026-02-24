@@ -43,9 +43,10 @@ export interface NavigationContent {
 
 export interface FooterContent {
   tagline: string;
-  linkedinLabel: string;
-  dribbbleLabel: string;
-  twitterLabel: string;
+  socialLinks: Array<{
+    name: string;
+    url: string;
+  }>;
 }
 
 export class SiteContent {
@@ -56,5 +57,5 @@ export class SiteContent {
     public readonly navigation: NavigationContent,
     public readonly footer: FooterContent,
     public readonly workSectionTitle: string
-  ) {}
+  ) { }
 }

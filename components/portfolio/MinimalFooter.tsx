@@ -1,4 +1,3 @@
-import { Linkedin, Twitter, Dribbble } from "lucide-react";
 import { SiteContent } from "@/src/domain/entities/Content";
 
 interface MinimalFooterProps {
@@ -11,28 +10,17 @@ export function MinimalFooter({ siteContent }: MinimalFooterProps) {
       <div className="text-xl font-black italic tracking-widest uppercase">
         {siteContent?.footer.tagline || ""}
       </div>
-      <div className="flex gap-8">
-        <a
-        target="_blank"
-          href={siteContent?.footer.linkedinLabel || ""}
-          className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
-        >
-          <Linkedin size={16} /> {removeProtocolFromUrl(siteContent?.footer.linkedinLabel || "")}
-        </a>
-        <a
-          target="_blank"
-          href={siteContent?.footer.dribbbleLabel || ""}
-          className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
-        >
-          <Dribbble size={16} /> {removeProtocolFromUrl(siteContent?.footer.dribbbleLabel || "")}
-        </a>
-        <a
-          target="_blank"
-          href={siteContent?.footer.twitterLabel || ""}
-          className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
-        >
-          <Twitter size={16} /> {removeProtocolFromUrl(siteContent?.footer.twitterLabel || "")}
-        </a>
+      <div className="flex flex-wrap justify-center gap-8">
+        {(siteContent?.footer.socialLinks || []).map((link, index) => (
+          <a
+            key={index}
+            target="_blank"
+            href={link.url}
+            className="flex items-center gap-2 text-xs font-bold hover:underline decoration-2 underline-offset-4"
+          >
+            {link.name}
+          </a>
+        ))}
       </div>
     </div>
   );
