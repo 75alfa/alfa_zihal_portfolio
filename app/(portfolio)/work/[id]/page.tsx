@@ -118,6 +118,22 @@ export default async function WorkDetailPage({
               <h2 className="text-5xl font-black uppercase mb-8 italic underline decoration-8 underline-offset-8 decoration-blue-200">
                 {item.title}
               </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 border-y-2 border-black border-dashed py-6">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-black uppercase opacity-50">Role</span>
+                  <span className="font-bold">{item.role || "UX Designer"}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-black uppercase opacity-50">Tools</span>
+                  <span className="font-bold">{(item.tools || []).join(", ") || "Figma"}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-black uppercase opacity-50">Timeline</span>
+                  <span className="font-bold">{item.timeline || item.period || "Current"}</span>
+                </div>
+              </div>
+
               <div className="grid md:grid-cols-2 gap-12">
                 <div className="flex flex-col gap-8">
                   <div className="sketch-border p-6 bg-yellow-50 rotate-[-1deg]">

@@ -8,6 +8,9 @@ export const workItemsQuery = `*[_type == "work" && !(_id in path("drafts.**"))]
   period,
   logoInitials,
   coverImage,
+  role,
+  tools,
+  timeline,
   overview,
   projects[] {
     name,
@@ -37,6 +40,9 @@ export const workItemByIdQuery = `*[_type == "work" && _id == $id && !(_id in pa
   period,
   logoInitials,
   coverImage,
+  role,
+  tools,
+  timeline,
   overview,
   projects[] {
     name,

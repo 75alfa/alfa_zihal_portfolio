@@ -8,8 +8,8 @@ export interface Project {
   name: string;
   slug: string;
   desc: string;
-  details: string;
-  fullDocumentation?: unknown; // PortableText type
+  details: any; // PortableText type
+  fullDocumentation?: any; // PortableText type
   solutionImages?: Array<{
     asset: { _ref: string };
     alt?: string;
@@ -30,11 +30,14 @@ export class WorkItem {
     public readonly coverImage?: {
       asset: { _ref: string };
     },
+    public readonly role?: string,
+    public readonly tools?: string[],
+    public readonly timeline?: string,
     public readonly overview?: WorkOverview,
     public readonly projects?: Project[],
     public readonly context?: string,
     public readonly problem?: string,
     public readonly solution?: string,
     public readonly tags?: string[]
-  ) {}
+  ) { }
 }

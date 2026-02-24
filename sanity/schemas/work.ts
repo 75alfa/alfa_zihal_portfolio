@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const workType = defineType({
   name: "work",
-  title: "Work Item",
+  title: "Case Study",
   type: "document",
   fields: [
     defineField({
@@ -13,7 +13,24 @@ export const workType = defineType({
     defineField({
       name: "type",
       type: "string",
+      title: "Project Category",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "role",
+      type: "string",
+      title: "My Role",
+    }),
+    defineField({
+      name: "tools",
+      type: "array",
+      title: "Tools Used",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "timeline",
+      type: "string",
+      title: "Timeline",
     }),
     defineField({
       name: "description",
@@ -88,7 +105,62 @@ export const workType = defineType({
             }),
             defineField({
               name: "details",
-              type: "string",
+              title: "Rich Details / Documentations",
+              type: "array",
+              of: [
+                {
+                  type: "block",
+                  styles: [
+                    { title: "Normal", value: "normal" },
+                    { title: "H1", value: "h1" },
+                    { title: "H2", value: "h2" },
+                    { title: "H3", value: "h3" },
+                  ],
+                  lists: [
+                    { title: "Bullet", value: "bullet" },
+                    { title: "Number", value: "number" },
+                  ],
+                  marks: {
+                    decorators: [
+                      { title: "Strong", value: "strong" },
+                      { title: "Emphasis", value: "em" },
+                    ],
+                    annotations: [
+                      {
+                        name: "link",
+                        type: "object",
+                        title: "URL",
+                        fields: [
+                          {
+                            title: "URL",
+                            name: "href",
+                            type: "url",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                },
+                {
+                  type: "image",
+                  options: {
+                    hotspot: true,
+                  },
+                  fields: [
+                    {
+                      name: "alt",
+                      type: "string",
+                      title: "Alternative text",
+                      description: "Important for SEO and accessibility.",
+                    },
+                    {
+                      name: "caption",
+                      type: "string",
+                      title: "Caption",
+                    },
+                  ],
+                },
+              ],
             }),
             defineField({
               name: "fullDocumentation",

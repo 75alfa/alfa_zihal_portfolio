@@ -12,6 +12,9 @@ export interface SanityWorkItem {
   coverImage?: {
     asset: { _ref: string };
   };
+  role?: string;
+  tools?: string[];
+  timeline?: string;
   overview?: {
     goal: string;
     logic: string;
@@ -23,8 +26,8 @@ export interface SanityWorkItem {
       current: string;
     };
     desc: string;
-    details: string;
-    fullDocumentation?: unknown;
+    details: any;
+    fullDocumentation?: any;
     solutionImages?: Array<{
       asset: { _ref: string };
       alt?: string;
@@ -48,12 +51,15 @@ export function mapSanityWorkItemToDomain(sanityItem: SanityWorkItem): WorkItem 
     sanityItem.period,
     sanityItem.logoInitials,
     sanityItem.coverImage ?? undefined,
+    sanityItem.role,
+    sanityItem.tools,
+    sanityItem.timeline,
     sanityItem.overview
       ? {
-          goal: sanityItem.overview.goal || "",
-          logic: sanityItem.overview.logic || "",
-          stat: sanityItem.overview.stat || "",
-        }
+        goal: sanityItem.overview.goal || "",
+        logic: sanityItem.overview.logic || "",
+        stat: sanityItem.overview.stat || "",
+      }
       : undefined,
     sanityItem.projects?.map(
       (p) =>

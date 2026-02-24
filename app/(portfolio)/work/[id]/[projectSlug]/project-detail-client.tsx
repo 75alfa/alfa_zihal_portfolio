@@ -14,7 +14,7 @@ interface ProjectDetailClientProps {
     name: string;
     slug: string;
     desc: string;
-    details: string;
+    details: PortableTextBlock[];
     fullDocumentation?: PortableTextBlock[];
     solutionImages?: Array<{
       asset: { _ref: string };
@@ -143,11 +143,14 @@ export default function ProjectDetailClient({
           <p className="text-xl mb-6 opacity-75 italic">{project.desc}</p>
         )}
         {project.details && (
-          <div className="p-4 border-2 border-black border-dashed bg-gray-50 text-md leading-relaxed">
-            <span className="font-black uppercase text-sm">
-              {uiLabels.sections.notes}:{" "}
-            </span>
-            <span>{String(project.details)}</span>
+          <div className="p-8 border-2 border-black border-dashed bg-gray-50 text-md leading-relaxed prose prose-lg max-w-none sketch-content">
+            <h4 className="font-black uppercase text-sm mb-4">
+              {uiLabels.sections.notes}
+            </h4>
+            <PortableText
+              value={project.details}
+              components={portableTextComponents as any}
+            />
           </div>
         )}
       </div>

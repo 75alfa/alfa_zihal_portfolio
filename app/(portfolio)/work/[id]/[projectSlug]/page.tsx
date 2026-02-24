@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({
     name: string;
     slug: string;
     desc: string;
-    details: string;
+    details: PortableTextBlock[];
     fullDocumentation?: PortableTextBlock[];
     solutionImages?: Array<{
       asset: { _ref: string };
